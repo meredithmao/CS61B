@@ -2,8 +2,8 @@ public class NBody {
 	public static double readRadius(String file) {
 		In in = new In(file);
 		int firstval = in.readInt();
-		double secondval = in.readDouble();
-		return secondval;
+		double universeradius = in.readDouble();
+		return universeradius;
 	}
 	public static Planet[] readPlanets (String file) {
 		In in = new In(file);
@@ -30,11 +30,9 @@ public class NBody {
 		Planet[] planets = readPlanets(filename);
 		double universeradius = readRadius(filename);
 
-
-
 		StdDraw.enableDoubleBuffering();
-		double [] xForces = new double [planets.length];
-		double [] yForces = new double [planets.length];
+		double[] xForces = new double [planets.length];
+		double[] yForces = new double [planets.length];
 
 		for (double time = 0; time < T ; time = time + dt) {
 
@@ -49,6 +47,9 @@ public class NBody {
 				
 				for (int j = 0; j < planets.length; j+=1) {
 					planets[j].update(dt, xForces[j], yForces[j]);
+				}
+				StdDraw.picture(0,0,image);
+				for (int j = 0; j < planets.length; j+=1) {	
 					planets[j].draw(); 
 				}
 			}

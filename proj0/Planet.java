@@ -25,9 +25,9 @@ public class Planet {
 		imgFileName = p.imgFileName;
 	}
 	public double calcDistance (Planet given) {
-		double xdistance = ((given.xxPos - xxPos) * (given.xxPos - xxPos) ) ;
-		double ydistance = ((given.yyPos - xxPos) * (given.yyPos - xxPos));
-		double distance = Math.sqrt((xdistance + ydistance));
+		double ydistance = ((- given.yyPos + yyPos) * (- given.yyPos + yyPos));
+		double xdistance = ((- given.xxPos + xxPos) * (- given.xxPos + xxPos)) ;
+		double distance = Math.sqrt(xdistance + ydistance);
 		return distance; 
 	}
 	public double calcForceExertedBy (Planet given) {
@@ -54,9 +54,10 @@ public class Planet {
 	public double calcNetForceExertedByY (Planet a[]) {
 		double yNetForce = 0;
 		for (int i = 0; i < a.length ; i += 1) {
-			if (this.equals(a[i]) == false) 
+			if (this.equals(a[i]) == false) {
 				yNetForce = calcForceExertedByY(a[i]) + yNetForce ;
 			}
+		}
 		
 		return yNetForce;
 	}
@@ -65,8 +66,8 @@ public class Planet {
 		double accelerationy = fY / this.mass;
 		xxVel = this.xxVel + (dt*accelerationx);
 		yyVel = this.yyVel + (dt*accelerationy);
-		xxPos = this.xxPos + (dt*xxVel);
-		yyPos = this.yyPos + (dt*yyVel);
+		xxPos = xxPos + (dt*xxVel);
+		yyPos = yyPos + (dt*yyVel);
 	}
 	public void draw () {
 		String planetpics = "images/"+this.imgFileName;

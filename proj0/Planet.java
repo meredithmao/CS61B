@@ -31,33 +31,33 @@ public class Planet {
 		return distance; 
 	}
 	public double calcForceExertedBy (Planet given) {
-		double force = ( G * given.mass * this.mass ) / (calcDistance(given) * calcDistance(given));
+		double force = ( G * given.mass * mass ) / (calcDistance(given) * calcDistance(given));
 		return force;
 	}
 	public double calcForceExertedByX (Planet given) {
-		double xForce = (calcForceExertedBy(given) * (given.xxPos - this.xxPos))/calcDistance(given) ;
+		double xForce = calcForceExertedBy(given) * (given.xxPos - xxPos)/calcDistance(given) ;
 		return xForce;
 	}
 	public double calcForceExertedByY (Planet given) {
-		double yForce = (calcForceExertedBy(given) * (given.yyPos - this.yyPos))/calcDistance(given);
+		double yForce = calcForceExertedBy(given) * (given.yyPos - yyPos)/calcDistance(given);
 		return yForce;
 	}
 	public double calcNetForceExertedByX (Planet a[]) {
 		double xNetForce = 0;
-		for (int i = 0; i < a.length ; i ++) {
+		for (int i = 0; i < a.length ; i += 1) {
 			if (this.equals(a[i]) == false) {
-				xNetForce = xNetForce + calcForceExertedByX(a[i]);
+				xNetForce = calcForceExertedByX(a[i]) + xNetForce;
 			}
 		}
 		return xNetForce;
 	}
 	public double calcNetForceExertedByY (Planet a[]) {
 		double yNetForce = 0;
-		for (int i = 0; i < a.length ; i ++) {
-			if (this.equals(a[i]) == false) {
-				yNetForce = yNetForce + calcForceExertedByY(a[i]);
+		for (int i = 0; i < a.length ; i += 1) {
+			if (this.equals(a[i]) == false) 
+				yNetForce = calcForceExertedByY(a[i]) + yNetForce ;
 			}
-		}
+		
 		return yNetForce;
 	}
 	public void update (double dt, double fX, double fY) {

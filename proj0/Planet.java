@@ -6,7 +6,7 @@ public class Planet {
 	public double yyVel;
 	public double mass;
 	public String imgFileName;
-	public static final double G = 6.67e-11; /**gravitational constant*/
+	private static final double G = 6.67e-11; /**gravitational constant*/
 
 	public Planet(double xP, double yP, double xV, double yV, double m, String img){
 		xxPos = xP;
@@ -31,15 +31,15 @@ public class Planet {
 		return distance; 
 	}
 	public double calcForceExertedBy (Planet given) {
-		double force = ( G * given.mass * mass ) / (calcDistance(given) * calcDistance(given));
+		double force = ( G * given.mass * this.mass ) / (calcDistance(given) * calcDistance(given));
 		return force;
 	}
 	public double calcForceExertedByX (Planet given) {
-		double xForce = (calcForceExertedBy(given) * (given.xxPos - xxPos))/calcDistance(given) ;
+		double xForce = (calcForceExertedBy(given) * (given.xxPos - this.xxPos))/calcDistance(given) ;
 		return xForce;
 	}
 	public double calcForceExertedByY (Planet given) {
-		double yForce = (calcForceExertedBy(given) * (given.yyPos - yyPos))/calcDistance(given);
+		double yForce = (calcForceExertedBy(given) * (given.yyPos - this.yyPos))/calcDistance(given);
 		return yForce;
 	}
 	public double calcNetForceExertedByX (Planet a[]) {

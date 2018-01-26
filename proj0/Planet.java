@@ -66,8 +66,8 @@ public class Planet {
 		double accelerationy = fY / this.mass;
 		xxVel = this.xxVel + (dt*accelerationx);
 		yyVel = this.yyVel + (dt*accelerationy);
-		xxPos = xxPos + (dt*xxVel);
-		yyPos = yyPos + (dt*yyVel);
+		xxPos = this.xxPos + (dt*xxVel);
+		yyPos = this.yyPos + (dt*yyVel);
 	}
 	public void draw () {
 		String planetpics = "images/"+this.imgFileName;

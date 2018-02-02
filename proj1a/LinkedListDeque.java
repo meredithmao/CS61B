@@ -84,17 +84,14 @@ public class LinkedListDeque<T> {
 	}
 
 	public T get(int index) {
-		Node p = this.sentinel;
+		Node p = this.sentinel.next;
 
-		if (index > this.size) {
-			return null;
-		} else if (this.isEmpty()) {
+		if (index >= this.size) {
 			return null;
 		} else {
 			while (index > 0) {
-				p.next = p.next.next;
+				p = p.next;
 				index = index - 1;
-
 			}
 			return p.item;
 		}
@@ -107,12 +104,9 @@ public class LinkedListDeque<T> {
 		}
 	}
 	public T getRecursive(int index) {
-		if (index > this.size) {
+		if (index >= this.size) {
 			return null;
-		} else if (this.isEmpty()) {
-			return null;
-		} else {
-			return recursiveHelper(index, this.sentinel.next);
 		}
+		return recursiveHelper(index, this.sentinel.next);
 	}
 }

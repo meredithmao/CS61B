@@ -21,11 +21,7 @@ public class LinkedListDeque<T> {
         if (this.isEmpty()) {
             this.sentinel.prev = new Node(this.sentinel, item, this.sentinel);
         } else {
-<<<<<<< HEAD
             this.sentinel.next = new Node(this.sentinel, item, this.sentinel.next);
-=======
-            this.sentinel.next = p;
->>>>>>> 1356dd10e9d735d82fdf035bcfc7e425f1284369
         }
         this.size = this.size + 1;
     }

@@ -7,14 +7,14 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
-        nextLast = 1;
-        nextFirst = 0;
+        nextLast = 0;
+        nextFirst = 7;
 
     }
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
         for (int i = 0; items[(nextFirst + 1 + i) % items.length] != null; i++) {
-            a[i%a.length] = items[(i + nextFirst + 1) % items.length];
+            a[i % a.length] = items[(i + nextFirst + 1) % items.length];
         }
         nextFirst = a.length - 1;
         nextLast = this.size;

@@ -21,8 +21,9 @@ public class LinkedListDeque<T> {
         Node p = new Node(this.sentinel, item, this.sentinel.next);
         if (this.isEmpty()) {
             this.sentinel.prev = new Node(this.sentinel, item, this.sentinel);
+        } else {
+            this.sentinel.next = p;
         }
-        this.sentinel.next = p;
         this.size = this.size + 1;
     }
     public void addLast(T item) {
@@ -68,10 +69,9 @@ public class LinkedListDeque<T> {
         if (this.isEmpty()) {
             return null;
         }
-        this.size = this.size - 1;
         Node oldNode = this.sentinel.prev;
         T itemvalue = oldNode.item;
-        /* remove the last item of the deque by repointing */
+        this.size = this.size - 1;
         oldNode.prev.next = this.sentinel;
         this.sentinel.prev = oldNode.prev;
         return itemvalue;

@@ -29,12 +29,12 @@ public class LinkedListDeque<T> {
 		this.size = this.size + 1;
 	}
 	public void addLast(T item) {
-		this.size = this.size + 1;
 	/*keep moving through the nodes */
-		Node oldNode = this.sentinel.prev;
-		Node newNode = new Node(oldNode, item, this.sentinel);
-		oldNode.next = newNode;
-		this.sentinel.prev = newNode;
+		Node old = this.sentinel.prev;
+		Node p = new Node(old, item, this.sentinel);
+		this.sentinel.prev = p;
+		old.next = p;
+		this.size = this.size + 1;
 	}
 	public boolean isEmpty() {
 		if (this.size == 0) {

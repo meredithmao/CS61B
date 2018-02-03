@@ -23,25 +23,25 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         this.items[this.nextFirst] = item;
+        size = size + 1;
         this.nextFirst = this.nextFirst - 1;
-        if (this.size == items.length) {
-            resize(this.size * 2);
-        }
         if (this.nextFirst < 0) {
             this.nextFirst = items.length - 1;
         }
-        size = size + 1;
+        if (this.size == items.length) {
+            resize(this.size * 2);
+        }
     }
     public void addLast(T item) {
         this.items[this.nextLast] = item;
-        this.nextLast = (this.nextLast + 1);
+        size = size + 1;
+        this.nextLast = this.nextLast + 1;
         if (this.size == items.length) {
             resize(this.size * 2);
         }
         if (this.nextLast > this.size - 1) {
             this.nextLast = 0;
         }
-        size = size + 1;
     }
     public boolean isEmpty() {
         if (this.size == 0) {
@@ -67,11 +67,11 @@ public class ArrayDeque<T> {
         if (this.size == 0) {
             return null;
         }
+        this.nextFirst = (nextFirst + 1);
         T value = this.items[nextFirst];
         items[nextFirst] = null;
-        this.nextFirst = (nextFirst + 1);
         this.size = this.size - 1;
-        if ((double) this.size / (double) items.length < 0.5) {
+        if ((double) this.size / (double) items.length < 0.3) {
             resize(items.length / 2);
         }
         if (nextFirst > items.length - 1) {
@@ -84,18 +84,16 @@ public class ArrayDeque<T> {
         if (this.size == 0) {
             return null;
         }
+        this.nextLast = this.nextLast - 1;
         T lastvalue = this.items[nextLast];
         items[nextLast] = null;
-        this.nextLast = this.nextLast - 1;
-        if ((double) this.size / (double) items.length < 0.5) {
+        this.size = this.size - 1;
+        if ((double) this.size / (double) items.length < 0.3) {
             resize(items.length / 2);
         }
         if (nextLast < 0) {
             this.nextLast = items.length - 1;
         }
-        this.size = this.size - 1;
-
         return lastvalue;
     }
-
 }

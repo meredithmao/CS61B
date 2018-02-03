@@ -18,7 +18,7 @@ public class ArrayDeque<T> {
         }
         this.nextFirst = a.length - 1;
         this.nextLast = this.size;
-        this.items = a;
+        items = a;
     }
 
     public void addFirst(T item) {
@@ -71,7 +71,7 @@ public class ArrayDeque<T> {
         }
         T value = this.items[nextFirst];
         items[nextFirst] = null;
-        if ((double) this.size / (double) items.length < 0.3) {
+        if (((double) this.size / (double) items.length < 0.3) && items.length > 8 ){
             resize(items.length / 2);
         }
         return value;
@@ -88,7 +88,7 @@ public class ArrayDeque<T> {
         }
         T lastvalue = this.items[nextLast];
         items[nextLast] = null;
-        if ((double) this.size / (double) items.length < 0.3) {
+        if ((double) this.size / (double) items.length < 0.3 && items.length > 8) {
             resize(items.length / 2);
         }
         return lastvalue;

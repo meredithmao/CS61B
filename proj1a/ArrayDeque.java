@@ -13,12 +13,12 @@ public class ArrayDeque<T> {
     }
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        for (int i = 0; items[(nextFirst + 1 + i) % items.length] != null; i++) {
-            a[i % a.length] = items[(i + nextFirst + 1) % items.length];
+        for (int i = 0; items[(this.nextFirst + 1 + i) % items.length] != null; i++) {
+            a[i % a.length] = items[(i + this.nextFirst + 1) % items.length];
         }
-        nextFirst = a.length - 1;
-        nextLast = this.size;
-        items = a;
+        this.nextFirst = a.length - 1;
+        this.nextLast = this.size;
+        this.items = a;
     }
 
     public void addFirst(T item) {
@@ -28,8 +28,8 @@ public class ArrayDeque<T> {
         if (this.nextFirst < 0) {
             this.nextFirst = items.length - 1;
         }
-        if (this.size == items.length) {
-            resize(this.size * 2);
+        if (this.nextFirst == this.nextLast) {
+            resize(items.length * 2);
         }
     }
     public void addLast(T item) {
@@ -39,8 +39,8 @@ public class ArrayDeque<T> {
         if (this.nextLast > items.length - 1) {
             this.nextLast = 0;
         }
-        if (this.size == items.length) {
-            resize(this.size * 2);
+        if (this.nextLast == this.nextFirst) {
+            resize(items.length * 2);
         }
     }
     public boolean isEmpty() {

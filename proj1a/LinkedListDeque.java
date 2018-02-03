@@ -68,15 +68,14 @@ public class LinkedListDeque<T> {
     public T removeLast() {
         if (this.isEmpty()) {
             return null;
-        } else {
-            this.size = this.size - 1;
-            Node oldNode = this.sentinel.prev;
-            T itemvalue = oldNode.item;
-            /* remove the last item of the deque by repointing */
-            this.sentinel.prev = oldNode.prev;
-            oldNode.prev.next = this.sentinel;
-            return itemvalue;
         }
+        this.size = this.size - 1;
+        Node oldNode = this.sentinel.prev;
+        T itemvalue = oldNode.item;
+        /* remove the last item of the deque by repointing */
+        oldNode.prev.next = this.sentinel;
+        this.sentinel.prev = oldNode.prev;
+        return itemvalue;
     }
     public T get(int index) {
         Node p = this.sentinel;

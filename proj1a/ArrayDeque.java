@@ -94,7 +94,7 @@ public class ArrayDeque<T> {
         if (this.size == 0) {
             return null;
         }
-        T lastvalue = this.items[(nextLast - 1 + items.length) % items.length];
+        T lastvalue = this.items[(nextLast - 1 + items.length) % items.length + 1];
         items[((nextLast - 1) + items.length) % items.length] = null;
         // minus one
         this.nextLast = ((nextLast - 1) + items.length) % items.length;

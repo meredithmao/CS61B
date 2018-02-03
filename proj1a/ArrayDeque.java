@@ -71,7 +71,7 @@ public class ArrayDeque<T> {
         }
         T value = this.items[nextFirst];
         items[nextFirst] = null;
-        if (((double) this.size / (double) items.length < 0.3) && items.length > 8 ){
+        if (((double) this.size / (double) items.length < 0.3) && items.length > 8) {
             resize(items.length / 2);
         }
         return value;

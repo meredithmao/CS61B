@@ -13,8 +13,8 @@ public class ArrayDeque<T> {
     }
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        for (int i = 0; i < size; i ++) {
-            a[i] = items[(i + nextFirst + 1)%items.length];
+        for (int i = 0; i < size; i++) {
+            a[i] = items[(i + nextFirst + 1) % items.length];
         }
         items = a;
     }
@@ -37,17 +37,17 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         this.items[this.nextFirst] = item;
-        this.nextFirst = ((this.nextFirst -1) + items.length)%items.length;
+        this.nextFirst = ((this.nextFirst - 1) + items.length) % items.length;
         if (this.size == items.length) {
             resize(this.size * 2);
-            this.nextFirst = items.length-1;
+            this.nextFirst = items.length - 1;
             this.nextLast = this.size;
         }
         size = size + 1;
     }
     public void addLast(T item) {
         this.items[this.nextLast] = item;
-        this.nextLast = (this.nextLast + 1) %items.length;
+        this.nextLast = (this.nextLast + 1) % items.length;
         if (this.size == items.length) {
             resize(this.size * 2);
             this.nextFirst = items.length - 1;
@@ -61,11 +61,11 @@ public class ArrayDeque<T> {
         }
         return false;
     }
-    public int size () {
+    public int size() {
         return this.size;
     }
     public void printDeque() {
-        for(int i = 0; i < this.size; i++) {
+        for (int i = 0; i < this.size; i++) {
             System.out.print(items[i] + " ");
         }
         System.out.println();
@@ -77,20 +77,20 @@ public class ArrayDeque<T> {
             return null;
         }
     }
-    public T removeFirst () {
+    public T removeFirst() {
         if (this.size == 0) {
             return null;
         }
-        T value = this.items[(nextFirst + 1)%items.length];
+        T value = this.items[(nextFirst + 1) % items.length];
         items[(nextFirst + 1) % items.length] = null;
-        this.nextFirst = (nextFirst + 1)%items.length;
+        this.nextFirst = (nextFirst + 1) % items.length;
         this.size = this.size - 1;
         //plus one
 
         return value;
 
     }
-    public T removeLast () {
+    public T removeLast() {
         if (this.size == 0) {
             return null;
         }

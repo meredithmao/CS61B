@@ -1,7 +1,7 @@
 public class LinkedListDeque<T> {
     private Node sentinel;
     private int size;
-    public class Node {
+    private class Node {
         private Node prev;
         private T item;
         private Node next;
@@ -21,8 +21,9 @@ public class LinkedListDeque<T> {
         Node p = new Node(this.sentinel, item, this.sentinel.next);
         if (this.isEmpty()) {
             this.sentinel.prev = new Node(this.sentinel, item, this.sentinel);
+        } else {
+            this.sentinel.next = p;
         }
-        this.sentinel.next = p;
         this.size = this.size + 1;
     }
     public void addLast(T item) {
@@ -54,25 +55,23 @@ public class LinkedListDeque<T> {
     public T removeFirst() {
         if (this.isEmpty()) {
             return null;
-        } else {
-            this.size = this.size - 1;
-            /* to figure out the first item */
-            Node firstitem = this.sentinel.next;
-            T itemvalue = firstitem.item;
-            /* move the second node to become the first node */
-            this.sentinel.next = firstitem.next;
-            firstitem.next.prev = this.sentinel;
-            return itemvalue;
         }
+        /* to figure out the first item */
+        Node firstitem = this.sentinel.next;
+        T itemvalue = firstitem.item;
+        this.size = this.size - 1;
+        /* move the second node to become the first node */
+        this.sentinel.next = firstitem.next;
+        firstitem.next.prev = this.sentinel;
+        return itemvalue;
     }
     public T removeLast() {
         if (this.isEmpty()) {
             return null;
         }
-        this.size = this.size - 1;
         Node oldNode = this.sentinel.prev;
         T itemvalue = oldNode.item;
-        /* remove the last item of the deque by repointing */
+        this.size = this.size - 1;
         oldNode.prev.next = this.sentinel;
         this.sentinel.prev = oldNode.prev;
         return itemvalue;

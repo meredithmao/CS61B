@@ -20,7 +20,7 @@ public class LinkedListDeque<T> {
     public void addFirst(T item) {
         Node p = new Node(this.sentinel, item, this.sentinel.next);
         if (this.isEmpty()) {
-            this.sentinel.prev = p;
+            this.sentinel.prev = new Node(this.sentinel, item, this.sentinel);
         }
         this.sentinel.next = p;
         this.size = this.size + 1;
@@ -29,8 +29,8 @@ public class LinkedListDeque<T> {
         /*keep moving through the nodes */
         Node old = this.sentinel.prev;
         Node p = new Node(old, item, this.sentinel);
-        this.sentinel.prev = p;
         old.next = p;
+        this.sentinel.prev = p;
         this.size = this.size + 1;
     }
     public boolean isEmpty() {
@@ -81,8 +81,6 @@ public class LinkedListDeque<T> {
         Node p = this.sentinel;
         if (index > this.size) {
             return null;
-        } else if (this.isEmpty()) {
-            return null;
         } else {
             while (index > 0) {
                 p = p.next;
@@ -99,12 +97,6 @@ public class LinkedListDeque<T> {
         }
     }
     public T getRecursive(int index) {
-        if (index > this.size) {
-            return null;
-        } else if (this.isEmpty()) {
-            return null;
-        } else {
-            return recursiveHelper(index, this.sentinel.next);
-        }
+        return recursiveHelper(index, this.sentinel.next);
     }
 }

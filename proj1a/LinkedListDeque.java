@@ -18,11 +18,10 @@ public class LinkedListDeque<T> {
         size = 0;
     }
     public void addFirst(T item) {
-        Node p = new Node(this.sentinel, item, this.sentinel.next);
         if (this.isEmpty()) {
             this.sentinel.prev = new Node(this.sentinel, item, this.sentinel);
         } else {
-            this.sentinel.next = p;
+            this.sentinel.next = new Node(this.sentinel, item, this.sentinel.next);
         }
         this.size = this.size + 1;
     }

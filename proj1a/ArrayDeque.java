@@ -36,7 +36,7 @@ public class ArrayDeque<T> {
         this.items[this.nextLast] = item;
         size = size + 1;
         this.nextLast = this.nextLast + 1;
-        if (this.nextLast > this.size - 1) {
+        if (this.nextLast > items.length - 1) {
             this.nextLast = 0;
         }
         if (this.size == items.length) {
@@ -58,21 +58,21 @@ public class ArrayDeque<T> {
         }
     }
     public T get(int index) {
-        return this.items[(index + (this.nextFirst + 1) % items.length)];
+        return this.items[(index + this.nextFirst + 1) % items.length];
     }
     public T removeFirst() {
         if (this.size == 0) {
             return null;
         }
-        this.nextFirst = (nextFirst + 1);
-        T value = this.items[nextFirst];
-        items[nextFirst] = null;
+        this.nextFirst = nextFirst + 1;
         this.size = this.size - 1;
-        if ((double) this.size / (double) items.length < 0.3) {
-            resize(items.length / 2);
-        }
         if (nextFirst > items.length - 1) {
             this.nextFirst = 0;
+        }
+        T value = this.items[nextFirst];
+        items[nextFirst] = null;
+        if ((double) this.size / (double) items.length < 0.3) {
+            resize(items.length / 2);
         }
         return value;
 
@@ -82,14 +82,14 @@ public class ArrayDeque<T> {
             return null;
         }
         this.nextLast = this.nextLast - 1;
-        T lastvalue = this.items[nextLast];
-        items[nextLast] = null;
         this.size = this.size - 1;
-        if ((double) this.size / (double) items.length < 0.3) {
-            resize(items.length / 2);
-        }
         if (nextLast < 0) {
             this.nextLast = items.length - 1;
+        }
+        T lastvalue = this.items[nextLast];
+        items[nextLast] = null;
+        if ((double) this.size / (double) items.length < 0.3) {
+            resize(items.length / 2);
         }
         return lastvalue;
     }

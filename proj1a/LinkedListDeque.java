@@ -76,16 +76,15 @@ public class LinkedListDeque<T> {
         return itemvalue;
     }
     public T get(int index) {
-        Node p = this.sentinel;
+        Node p = this.sentinel.next;
         if (index > this.size) {
             return null;
-        } else {
-            while (index > 0) {
-                p = p.next;
-                index = index - 1;
-            }
-            return p.item;
         }
+        while (index > 0) {
+            p = p.next;
+            index = index - 1;
+        }
+        return p.item;
     }
     private T recursiveHelper(int index, Node p) {
         if (index == 0) {

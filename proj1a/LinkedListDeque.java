@@ -1,14 +1,15 @@
 public class LinkedListDeque<T> {
     public class Node {
-        private Node prev;
-        private T item;
-        private Node next;
-        public Node(Node p, T i, Node n) {
-        	this.prev = p;
-        	this.item = i;
-        	this.next = n;
-        }
-    }
+		private Node prev;
+		private T item;
+		private Node next;
+	
+		public Node(Node p, T i, Node n) {
+			this.prev = p;
+			this.item = i;
+			this.next = n;
+		}
+	}
 	/* The first item if it exists is at sentinel.next*/
 	private Node sentinel;
 	private int size;
@@ -25,6 +26,7 @@ public class LinkedListDeque<T> {
 			p.next = this.sentinel;
 		}
 		this.sentinel.next = p;
+		this.sentinel.next.prev = p;
 		this.size = this.size + 1;
 	}
 	public void addLast(T item) {
@@ -94,6 +96,7 @@ public class LinkedListDeque<T> {
 			while (index > 0) {
 				p.next = p.next.next;
 				index = index - 1;
+
 			}
 			return p.item;
 		}
@@ -106,9 +109,12 @@ public class LinkedListDeque<T> {
 		}
 	}
 	public T getRecursive(int index) {
-		if (index >= this.size) {
+		if (index > this.size) {
 			return null;
+		} else if (this.isEmpty()) {
+			return null;
+		} else {
+			return recursiveHelper(index, this.sentinel.next);
 		}
-		return recursiveHelper(index, this.sentinel.next);
 	}
 }

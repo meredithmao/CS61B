@@ -1,10 +1,10 @@
-public class ArrayDeque <T> {
+public class ArrayDeque<T> {
     private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
 
-    public ArrayDeque () {
+    public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
         nextLast = 1;
@@ -13,12 +13,12 @@ public class ArrayDeque <T> {
     }
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        System.arraycopy(items, 0 , a, 0, size);
+        System.arraycopy(items, 0 ,a, 0, size);
         items = a;
     }
 
     private int minusOne(int index) {
-        int nextLast = index -1;
+        int nextLast = index-1;
         if (nextLast < 0) {
             nextLast += this.len;
         }
@@ -26,7 +26,7 @@ public class ArrayDeque <T> {
     }
 
     private int plusOne(int index) {
-        int nextFirst = index +1;
+        int nextFirst = index+1;
         if (nextFirst > len) {
             nextFirst = nextFirst + (nextFirst % this.len);
         }
@@ -68,6 +68,13 @@ public class ArrayDeque <T> {
         }
         System.out.println();
     }
+    public T get(int index) {
+        if (index < this.size) {
+            return this.items[index + this.nextFirst + 1];
+        } else {
+            return null;
+        }
+    }
     public T removeFirst () {
         if (this.size == 0) {
             return null;
@@ -90,14 +97,6 @@ public class ArrayDeque <T> {
         this.size = this.size - 1;
 
         return lastvalue;
-    }
-    public T get(int index) {
-        if(index < this.size) {
-            return this.items[index + this.nextFirst + 1];
-        }
-        else {
-            return null;
-        }
     }
 
 }

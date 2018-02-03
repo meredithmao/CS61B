@@ -88,7 +88,7 @@ public class LinkedListDeque<T> {
 			return null;
 		} else {
 			while (index > 0) {
-				p.next = p.next.next;
+				p = p.next;
 				index = index - 1;
 			}
 			return p.item;

@@ -54,16 +54,15 @@ public class LinkedListDeque<T> {
     public T removeFirst() {
         if (this.isEmpty()) {
             return null;
-        } else {
-            this.size = this.size - 1;
-            /* to figure out the first item */
-            Node firstitem = this.sentinel.next;
-            T itemvalue = firstitem.item;
-            /* move the second node to become the first node */
-            this.sentinel.next = firstitem.next;
-            firstitem.next.prev = this.sentinel;
-            return itemvalue;
         }
+        /* to figure out the first item */
+        Node firstitem = this.sentinel.next;
+        T itemvalue = firstitem.item;
+        this.size = this.size - 1;
+        /* move the second node to become the first node */
+        this.sentinel.next = firstitem.next;
+        firstitem.next.prev = this.sentinel;
+        return itemvalue;
     }
     public T removeLast() {
         if (this.isEmpty()) {

@@ -1,4 +1,7 @@
 public class LinkedListDeque<T> {
+	private Node sentinel;
+	private int size;
+	
 	public class Node {
 		private Node prev;
 		private T item;
@@ -9,10 +12,6 @@ public class LinkedListDeque<T> {
 			this.next = n;
 		}
 	}
-	/* The first item if it exists is at sentinel.next*/
-	private Node sentinel;
-	private int size;
-
 	public LinkedListDeque() {
 		sentinel = new Node(sentinel, null, sentinel);
 		sentinel.prev = sentinel;

@@ -13,7 +13,7 @@ public class ArrayDeque<T> {
     }
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        for (int i = 0; items[(nextfirst + 1 + i) % items.length] != null; i++) {
+        for (int i = 0; items[(nextFirst + 1 + i) % items.length] != null; i++) {
             a[i%a.length] = items[(i + nextFirst + 1) % items.length];
         }
         nextFirst = a.length - 1;
@@ -34,11 +34,11 @@ public class ArrayDeque<T> {
     }
     public void addLast(T item) {
         this.items[this.nextLast] = item;
-        this.nextLast = (this.nextLast + 1;
+        this.nextLast = (this.nextLast + 1);
         if (this.size == items.length) {
             resize(this.size * 2);
         }
-        if (this.nextLast > this.size - 1){
+        if (this.nextLast > this.size - 1) {
             this.nextLast = 0;
         }
         size = size + 1;

@@ -1,10 +1,9 @@
 public class LinkedListDeque<T> {
-    public class Node {
-    	private Node prev;
+	public class Node {
+		private Node prev;
 		private T item;
 		private Node next;
-	
-		private Node(Node p, T i, Node n) {
+		public Node(Node p, T i, Node n) {
 			this.prev = p;
 			this.item = i;
 			this.next = n;
@@ -15,16 +14,16 @@ public class LinkedListDeque<T> {
 	private int size;
 
 	public LinkedListDeque() {
-		sentinel = new Node(this.sentinel, null, this.sentinel);
+		sentinel = new Node(sentinel, null, sentinel);
+		sentinel.prev = sentinel;
+		sentinel.next = sentinel;
 		size = 0;
 	}
 	public void addFirst(T item) {
-		//p.next = this.sentinel;
 		Node p = new Node(this.sentinel, item, this.sentinel.next);
 		if (this.isEmpty()) {
 			this.sentinel.prev = p;
 		}
-		this.sentinel.next.prev = p;
 		this.sentinel.next = p;
 		this.size = this.size + 1;
 	}
@@ -79,14 +78,10 @@ public class LinkedListDeque<T> {
 			this.sentinel.prev = oldNode.prev;
 			oldNode.prev.next = this.sentinel;
 			return itemvalue;
-
 		}
-
 	}
-
 	public T get(int index) {
 		Node p = this.sentinel;
-
 		if (index > this.size) {
 			return null;
 		} else if (this.isEmpty()) {
@@ -95,7 +90,6 @@ public class LinkedListDeque<T> {
 			while (index > 0) {
 				p.next = p.next.next;
 				index = index - 1;
-
 			}
 			return p.item;
 		}

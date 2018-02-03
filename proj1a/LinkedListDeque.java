@@ -1,112 +1,111 @@
 public class LinkedListDeque<T> {
-	private Node sentinel;
-	private int size;
-	
-	public class Node {
-		private Node prev;
-		private T item;
-		private Node next;
-		public Node(Node p, T i, Node n) {
-			this.prev = p;
-			this.item = i;
-			this.next = n;
-		}
-	}
-	public LinkedListDeque() {
-		sentinel = new Node(sentinel, null, sentinel);
-		sentinel.prev = sentinel;
-		sentinel.next = sentinel;
-		size = 0;
-	}
-	public void addFirst(T item) {
-		Node p = new Node(this.sentinel, item, this.sentinel.next);
-		if (this.isEmpty()) {
-			this.sentinel.prev = p;
-		}
-		this.sentinel.next = p;
-		this.size = this.size + 1;
-	}
-	public void addLast(T item) {
-	/*keep moving through the nodes */
-		Node old = this.sentinel.prev;
-		Node p = new Node(old, item, this.sentinel);
-		this.sentinel.prev = p;
-		old.next = p;
-		this.size = this.size + 1;
-	}
-	public boolean isEmpty() {
-		if (this.size == 0) {
-			return true;
-		}
-		return false;
-	}
-	public int size() {
-		return this.size;
-	}
-	public void printDeque() {
-		Node p = this.sentinel.next;
-		int count = 0;
-		while (count < this.size) {
-			System.out.print(p.item.toString() + " ");
-			p = p.next;
-			count += 1;
-		}
-	}
-	public T removeFirst() {
-		if (this.isEmpty()) {
-			return null;
-		} else {
-			this.size = this.size - 1;
-			/* to figure out the first item */
-			Node firstitem = this.sentinel.next;
-			T itemvalue = firstitem.item;
-			/* move the second node to become the first node */
-			this.sentinel.next = firstitem.next;
-			firstitem.next.prev = this.sentinel;
-			return itemvalue;
-		}
-	}
-	public T removeLast() {
-		if (this.isEmpty()) {
-			return null;
-		} else {
-			this.size = this.size - 1;
-			Node oldNode = this.sentinel.prev;
-			T itemvalue = oldNode.item;
-			/* remove the last item of the deque by repointing */
-			this.sentinel.prev = oldNode.prev;
-			oldNode.prev.next = this.sentinel;
-			return itemvalue;
-		}
-	}
-	public T get(int index) {
-		Node p = this.sentinel;
-		if (index > this.size) {
-			return null;
-		} else if (this.isEmpty()) {
-			return null;
-		} else {
-			while (index > 0) {
-				p = p.next;
-				index = index - 1;
-			}
-			return p.item;
-		}
-	}
-	private T recursiveHelper(int index, Node p) {
-		if (index == 0) {
-			return p.item;
-		} else {
-			return recursiveHelper(index - 1, p.next);
-		}
-	}
-	public T getRecursive(int index) {
-		if (index > this.size) {
-			return null;
-		} else if (this.isEmpty()) {
-			return null;
-		} else {
-			return recursiveHelper(index, this.sentinel.next);
-		}
-	}
+    private Node sentinel;
+    private int size;
+    public class Node {
+        private Node prev;
+        private T item;
+        private Node next;
+        public Node(Node p, T i, Node n) {
+            this.prev = p;
+            this.item = i;
+            this.next = n;
+        }
+    }
+    public LinkedListDeque() {
+        sentinel = new Node(sentinel, null, sentinel);
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
+        size = 0;
+    }
+    public void addFirst(T item) {
+        Node p = new Node(this.sentinel, item, this.sentinel.next);
+        if (this.isEmpty()) {
+            this.sentinel.prev = p;
+        }
+        this.sentinel.next = p;
+        this.size = this.size + 1;
+    }
+    public void addLast(T item) {
+        /*keep moving through the nodes */
+        Node old = this.sentinel.prev;
+        Node p = new Node(old, item, this.sentinel);
+        this.sentinel.prev = p;
+        old.next = p;
+        this.size = this.size + 1;
+    }
+    public boolean isEmpty() {
+        if (this.size == 0) {
+            return true;
+        }
+        return false;
+    }
+    public int size() {
+        return this.size;
+    }
+    public void printDeque() {
+        Node p = this.sentinel.next;
+        int count = 0;
+        while (count < this.size) {
+            System.out.print(p.item.toString() + " ");
+            p = p.next;
+            count += 1;
+        }
+    }
+    public T removeFirst() {
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            this.size = this.size - 1;
+            /* to figure out the first item */
+            Node firstitem = this.sentinel.next;
+            T itemvalue = firstitem.item;
+            /* move the second node to become the first node */
+            this.sentinel.next = firstitem.next;
+            firstitem.next.prev = this.sentinel;
+            return itemvalue;
+        }
+    }
+    public T removeLast() {
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            this.size = this.size - 1;
+            Node oldNode = this.sentinel.prev;
+            T itemvalue = oldNode.item;
+            /* remove the last item of the deque by repointing */
+            this.sentinel.prev = oldNode.prev;
+            oldNode.prev.next = this.sentinel;
+            return itemvalue;
+        }
+    }
+    public T get(int index) {
+        Node p = this.sentinel;
+        if (index > this.size) {
+            return null;
+        } else if (this.isEmpty()) {
+            return null;
+        } else {
+            while (index > 0) {
+                p = p.next;
+                index = index - 1;
+            }
+            return p.item;
+        }
+    }
+    private T recursiveHelper(int index, Node p) {
+        if (index == 0) {
+            return p.item;
+        } else {
+            return recursiveHelper(index - 1, p.next);
+        }
+    }
+    public T getRecursive(int index) {
+        if (index > this.size) {
+            return null;
+        } else if (this.isEmpty()) {
+            return null;
+        } else {
+            return recursiveHelper(index, this.sentinel.next);
+        }
+    }
 }

@@ -36,11 +36,11 @@ public class ArrayDeque<T> {
         this.items[this.nextLast] = item;
         size = size + 1;
         this.nextLast = this.nextLast + 1;
-        if (this.size == items.length) {
-            resize(this.size * 2);
-        }
         if (this.nextLast > this.size - 1) {
             this.nextLast = 0;
+        }
+        if (this.size == items.length) {
+            resize(this.size * 2);
         }
     }
     public boolean isEmpty() {
@@ -58,10 +58,7 @@ public class ArrayDeque<T> {
         }
     }
     public T get(int index) {
-        if (index < this.size) {
-            return this.items[(index + (this.nextFirst + 1) % items.length)];
-        }
-        return null;
+        return this.items[(index + (this.nextFirst + 1) % items.length)];
     }
     public T removeFirst() {
         if (this.size == 0) {

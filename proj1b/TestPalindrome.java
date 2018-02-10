@@ -35,7 +35,7 @@ public class TestPalindrome {
         assertFalse(palindrome.isPalindrome("digits", offByOne));
         assertFalse(palindrome.isPalindrome("Acefdb", offByOne));
         assertTrue(palindrome.isPalindrome("acefdb", offByOne));
-        assertTrue(palindrome.isPalindrome("", offByOne));
+        assertTrue(palindrome.isPalindrome(" ", offByOne));
         assertTrue(palindrome.isPalindrome("a", offByOne));
     }
 }

@@ -68,7 +68,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
 
     public T peek() {
-
+        if (isEmpty()) {
+            throw new RuntimeException(("Ring buffer flow"));
+        }
         return rb[first];
     }
     @Override

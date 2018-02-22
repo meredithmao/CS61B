@@ -14,8 +14,8 @@ import static org.junit.Assert.*;
 public class TestGuitarString {
     @Test
     public void testPluckTheAString() {
-        double concert_a = 440.0;
-        GuitarString aString = new GuitarString(concert_a);
+        double concertA = 440.0;
+        GuitarString aString = new GuitarString(concertA);
         aString.pluck();
         for (int i = 0; i < 50000; i += 1) {
             StdAudio.play(aString.sample());

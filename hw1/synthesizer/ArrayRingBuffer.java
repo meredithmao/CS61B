@@ -77,7 +77,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     }
     private class Iterate implements Iterator<T> {
         private int index;
-        public Iterate () {
+        Iterate() {
             index = 0;
         }
         public boolean hasNext() {

@@ -26,13 +26,13 @@ public class GuitarString {
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
 
-        double r = Math.random() - 0.5;
         while (!buffer.isEmpty()) {
             buffer.dequeue();
         }
         double[] temp = new double[buffer.capacity()];
         int count = 0;
         while (count < temp.length) {
+            double r = Math.random() - 0.5;
             temp[count] = r;
             count += 1;
             buffer.enqueue(r);

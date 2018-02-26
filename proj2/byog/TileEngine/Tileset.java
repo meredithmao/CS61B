@@ -20,8 +20,10 @@ public class Tileset {
     public static TETile PLAYER = new TETile('@', Color.white, Color.black, "player");
     public static final TETile WALL = new TETile('#', new Color(216, 128, 128), Color.darkGray,
             "wall");
-    public static final TETile FLOOR = new TETile('·', new Color(128, 192, 128), Color.black,
-            "floor");
+    public static final TETile ROOMFLOOR = new TETile('·', new Color(128, 192, 128), Color.black,
+            "roomfloor");
+    public static final TETile HALLFLOOR = new TETile(',', new Color(128, 0, 128), Color.black,
+            "hallfloor");
     public static final TETile NOTHING = new TETile(' ', Color.black, Color.black, "nothing");
     public static final TETile GRASS = new TETile('"', Color.green, Color.black, "grass");
     public static final TETile WATER = new TETile('≈', Color.blue, Color.black, "water");

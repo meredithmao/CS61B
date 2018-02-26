@@ -12,4 +12,7 @@ import java.util.Random;
  * Draws a world consisting of hexagonal regions.
  */
 public class HexWorld {
+    public void addHexagon(TETile[][] world, Position p, int s, TETile t){
+
+    }
 }

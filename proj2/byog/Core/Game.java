@@ -32,7 +32,23 @@ public class Game {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
+
         TETile[][] finalWorldFrame = null;
+        //converting the input to a char array
+        char [] inputChar = input.toCharArray();
+        //String [] SEED = new String [];
+        //checks to see if the first value in your input starts with N
+        if (inputChar[0] == 'n' || inputChar[0] == 'N') {
+            //going through the rest of the input string
+            for (int i = 1 ; i < input.length() - 1 ; i ++) {
+                //check if the next character is a number
+                if (Character.isDigit(inputChar[i])) {
+                    //storing the characters as a string
+                    //SEED[i] = String.valueOf(inputChar[i]);
+                }
+            }
+
+        }
         return finalWorldFrame;
     }
 }

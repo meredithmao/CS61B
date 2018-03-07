@@ -60,25 +60,6 @@ public class Game {
                 }
             }
         }
-        return movementString;
-    }
-    private String[] stringReaderAfterL(String input) {
-        String[] movementString = new String[input.length()];
-        int index = 0;
-        boolean s = true;
-        for (int i = 0; i < input.length(); i++) {
-            char x = input.charAt(i);
-            //if the seed is AWSD
-            if (x == 65 || x == 97 || x == 87 || x == 119 || x == 83 || x == 115
-                    || x == 68 || x == 100 || x == 58 || x == 81 || x == 113) {
-                if ((x == 83 || x == 115) && s) {
-                    s = false;
-                } else {
-                    movementString[index] = Character.toString(x);
-                    index++;
-                }
-            }
-        }
         int notNull = 0;
         for (int j = 0; j < movementString.length; j++) {
             if (movementString[j] != null) {
@@ -283,21 +264,13 @@ public class Game {
      */
 
     public TETile[][] playWithInputString(String input) {
+        return internalPlayWithInputString(input).world;
+    }
+
+    public World internalPlayWithInputString(String input) {
 //        ter.initialize(50, 50);
         seedRandomizer = this.seedMaker(input);
         String[] stringKeys = stringReader(input);
-        World worldObj = new World();
-        worldObj.world = worldObj.finalWorldgenerator(seedRandomizer);
-        worldObj.seed = seedKeeper(input);
-        KeyReader kr = new KeyReader();
-        kr.reader(stringKeys, worldObj);
-//        ter.renderFrame(worldObj.world);
-        return worldObj.world;
-    }
-    public World playWithInputStringAfterLoad(String input) {
-//        ter.initialize(50, 50);
-        seedRandomizer = this.seedMaker(input);
-        String[] stringKeys = stringReaderAfterL(input);
         World worldObj = new World();
         worldObj.world = worldObj.finalWorldgenerator(seedRandomizer);
         worldObj.seed = seedKeeper(input);

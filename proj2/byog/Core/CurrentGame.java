@@ -41,8 +41,7 @@ public class CurrentGame extends KeyReader {
         try {
             byte[] bytes = Files.readAllBytes(Paths.get(file));
             String stringInput = new String(bytes, StandardCharsets.UTF_8);
-            World worldObj = playWithInputStringAfterLoad(stringInput);
-            System.out.println(worldObj.playerX + "&" + worldObj.playerY);
+            World worldObj = internalPlayWithInputString(stringInput);
             playWithKeyboardAfterLoad(worldObj);
 
         } catch (IOException s) {

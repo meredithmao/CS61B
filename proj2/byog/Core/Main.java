@@ -12,7 +12,7 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Game game = new Game();
-            game.playWithInputString(args[0]);
+            game.playWithInputString("n4979154725301381123swwawd");
         } else {
             Game game = new Game();
             game.playWithKeyboard();

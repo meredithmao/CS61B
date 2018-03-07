@@ -27,6 +27,7 @@ public class CurrentGame extends KeyReader {
         //creates a currentGame instance called gameSaved to save the current game
         try {
             PrintWriter writer = new PrintWriter(file);
+            fatWASDstring = fatWASDstring.replaceAll(":q", "");
             writer.print(seed + "s" + fatWASDstring);
             writer.close();
 

@@ -5,11 +5,31 @@ import byog.TileEngine.TETile;
 import edu.princeton.cs.introcs.StdDraw;
 
 //import java.awt.*;
+import javax.print.DocFlavor;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
+
+class ParseResult {
+
+    private String wasdString;
+    private String[] seed;
+
+    public ParseResult(String wasdString, String[] seed) {
+        this.wasdString = wasdString;
+        this.seed = seed;
+    }
+
+    public String getWasdString() {
+        return wasdString;
+    }
+
+    public String[] getSeed() {
+        return seed;
+    }
+}
 
 public class Game {
     //    /* Feel free to change the width and height. */
@@ -18,7 +38,6 @@ public class Game {
 //    private static TERenderer ter = new TERenderer();
     Random seedRandomizer;
     long seedValue;
-    String fatWASDstring = "";
 
     private long seedKeeper(String input) {
         String seedVal = "";
@@ -26,7 +45,6 @@ public class Game {
             char x = input.charAt(i);
             if (x >= 48 && x < 58) {
                 seedVal += (x + "");
-
             }
         }
         seedValue = Long.parseLong(seedVal);
@@ -47,19 +65,22 @@ public class Game {
     }
 
     //reads the movement keys
-    private String[] stringReader(String input) {
+    private ParseResult readStringReturnArrayOfWASDQ(String input) {
         String[] movementString = new String[input.length()];
+        String fatWASDstring = "";
         int index = 0;
         boolean s = true;
         for (int i = 0; i < input.length(); i++) {
             char x = input.charAt(i);
             //if the seed is AWSD
             if (x == 65 || x == 97 || x == 87 || x == 119 || x == 83
-                    || x == 115 || x == 68 || x == 100 || x == 58 || x == 81 || x == 113) {
+                    || x == 115 || x == 68 || x == 100 || x == 58
+                    || x == 81 || x == 113) {
                 if ((x == 83 || x == 115) && s) {
                     s = false;
                 } else {
                     movementString[index] = Character.toString(x);
+                    fatWASDstring += Character.toString(x);
                     index++;
                 }
             }
@@ -75,15 +96,16 @@ public class Game {
             movementStringNoNull[j] = movementString[j];
         }
 
-        return movementStringNoNull;
+        return new ParseResult(fatWASDstring, movementStringNoNull);
     }
 
-    private void liveKeyReader(World worldObj) {
+    private String liveKeyReader(World worldObj) {
         //Maximum 100 key movements to win
         String[] sA = new String[1];
         String s;
         int index = 0;
         KeyReader read = new KeyReader();
+        String wasd = "";
 //        StdDraw.pause(100);
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
@@ -92,7 +114,7 @@ public class Game {
                 //records the player movement into a single array
                 sA[index] = s;
                 read.reader(sA, worldObj);
-                worldObj.fatWASDstring += s;
+                wasd += s;
                 if (s.equals("q") || s.equals("Q")) {
                     break;
                 }
@@ -100,6 +122,8 @@ public class Game {
                 StdDraw.pause(100);
             }
         }
+
+        return wasd;
     }
     private long seed;
     private Random nSeedRead() {
@@ -233,8 +257,8 @@ public class Game {
 //                    ter.renderFrame(worldObj.world);
                     //Pause and then wait for WASD inputs
 //                    StdDraw.pause(100);
-                    liveKeyReader(worldObj);
-                    worldObj.fatWASDstring = this.fatWASDstring;
+                    String fatWASDstring = liveKeyReader(worldObj);
+                    worldObj.fatWASDstring = fatWASDstring;
                 }
 
                 if (potentialNorL.equals("l") || potentialNorL.equals("L")) {
@@ -248,7 +272,6 @@ public class Game {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 liveKeyReader(worldObj);
-                worldObj.fatWASDstring = this.fatWASDstring;
             }
         }
     }
@@ -275,9 +298,8 @@ public class Game {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            long oldSeedLong = seedKeeper(new String(bytes, StandardCharsets.UTF_8));
-            String[] oldSeedArray = stringReader(new String(bytes, StandardCharsets.UTF_8));
-            String oldSeed = oldSeedLong + String.join("", oldSeedArray);
+
+            String oldSeed = new String(bytes, StandardCharsets.UTF_8);
             input = oldSeed + input.substring(1, input.length());
         }
 
@@ -287,12 +309,13 @@ public class Game {
     public World internalPlayWithInputString(String input) {
 //        ter.initialize(50, 50);
         seedRandomizer = this.seedMaker(input);
-        String[] stringKeys = stringReader(input);
         World worldObj = new World();
+        ParseResult parsed = readStringReturnArrayOfWASDQ(input);
+        worldObj.fatWASDstring = parsed.getWasdString();
         worldObj.world = worldObj.finalWorldgenerator(seedRandomizer);
         worldObj.seed = seedKeeper(input);
         KeyReader kr = new KeyReader();
-        kr.reader(stringKeys, worldObj);
+        kr.reader(parsed.getSeed(), worldObj);
 //        System.out.println(worldObj.playerX + "&" + worldObj.playerY);
 //        ter.renderFrame(worldObj.world);
         return worldObj;

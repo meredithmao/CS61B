@@ -5,33 +5,32 @@ import byog.TileEngine.TETile;
 import edu.princeton.cs.introcs.StdDraw;
 
 //import java.awt.*;
-import javax.print.DocFlavor;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
-class ParseResult {
+//class ParseResult {
+//
+//    private String wasdString;
+//    private String[] seed;
+//
+//    ParseResult(String wasdString, String[] seed) {
+//        this.wasdString = wasdString;
+//        this.seed = seed;
+//    }
+//
+//    public String getWasdString() {
+//        return wasdString;
+//    }
+//
+//    public String[] getSeed() {
+//        return seed;
+//    }
+//}
 
-    private String wasdString;
-    private String[] seed;
-
-    public ParseResult(String wasdString, String[] seed) {
-        this.wasdString = wasdString;
-        this.seed = seed;
-    }
-
-    public String getWasdString() {
-        return wasdString;
-    }
-
-    public String[] getSeed() {
-        return seed;
-    }
-}
-
-public class Game {
+public class Game extends ParseResult {
     //    /* Feel free to change the width and height. */
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;

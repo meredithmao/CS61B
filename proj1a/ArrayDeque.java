@@ -1,4 +1,4 @@
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     private int size;
     private int nextFirst;
@@ -11,7 +11,7 @@ public class ArrayDeque<T> {
         nextFirst = 7;
 
     }
-    private void resize(int cap) {
+   private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
         for (int i = 0; items[(this.nextFirst + 1 + i) % items.length] != null; i++) {
             a[i % a.length] = items[(i + this.nextFirst + 1) % items.length];

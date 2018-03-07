@@ -14,7 +14,7 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Game game = new Game();
-            TETile[][] g = game.playWithInputString("ld");
+            TETile[][] g = game.playWithInputString("lwww");
             System.out.println(TETile.toString(g));
         } else {
             Game game = new Game();

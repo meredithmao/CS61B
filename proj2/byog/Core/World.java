@@ -1,26 +1,25 @@
 //Most recent upload
 package byog.Core;
 
-import byog.TileEngine.TERenderer;
+//import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-import java.io.Serializable;
 import java.util.Random;
 
-public class World extends Game implements Serializable {
+public class World extends Game {
     private static final int WIDTH = 50;
     private static final int HEIGHT = 50;
-    private static TERenderer ter = new TERenderer();
+//    private static TERenderer ter = new TERenderer();
     //Player coordinates
-    public int playerX;
-    public int playerY;
+    int playerX;
+    int playerY;
     TETile[][] world = new TETile[WIDTH][HEIGHT];
     long seed;
     String fatWASDstring;
 
     private void base() {
-        ter.initialize(WIDTH, HEIGHT);
+//        ter.initialize(WIDTH, HEIGHT);
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
                 world[x][y] = Tileset.NOTHING;

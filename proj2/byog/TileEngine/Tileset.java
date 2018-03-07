@@ -1,7 +1,6 @@
 package byog.TileEngine;
 
 import java.awt.Color;
-import java.io.Serializable;
 
 /**
  * Contains constant tile objects, to avoid having to remake the same tiles in different parts of
@@ -17,8 +16,8 @@ import java.io.Serializable;
  * characters. This is OK.
  */
 
-public class Tileset implements Serializable{
-    public static TETile PLAYER = new TETile('8', Color.white, Color.black, "player");
+public class Tileset {
+    public static final TETile PLAYER = new TETile('8', Color.white, Color.black, "player");
     public static final TETile WALL = new TETile('|', new Color(216, 128, 128), Color.darkGray,
             "wall");
     public static final TETile FLOOR = new TETile('·', new Color(128, 192, 128), Color.black,

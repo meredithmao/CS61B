@@ -1,45 +1,44 @@
 package byog.Core;
 
-import byog.TileEngine.TERenderer;
+//import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.*;
-import java.io.Serializable;
+//import java.awt.*;
 import java.util.Random;
 
-public class Game implements Serializable {
+public class Game {
     //    /* Feel free to change the width and height. */
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
-    private static TERenderer ter = new TERenderer();
+//    private static TERenderer ter = new TERenderer();
     Random seedRandomizer;
     long seedValue;
     String fatWASDstring = "";
 
     private long seedKeeper(String input) {
-        String seed = "";
+        String seedVal = "";
         for (int i = 0; i < input.length(); i++) {
             char x = input.charAt(i);
             if (x >= 48 && x < 58) {
-                seed += (x + "");
+                seedVal += (x + "");
 
             }
         }
-        seedValue = Long.parseLong(seed);
+        seedValue = Long.parseLong(seedVal);
         return seedValue;
     }
     //reads the seed value and turns it into a randomizer
     public Random seedMaker(String input) {
-        String seed = "";
+        String seeD = "";
         for (int i = 0; i < input.length(); i++) {
             char x = input.charAt(i);
             if (x >= 48 && x < 58) {
-                seed += (x + "");
+                seeD += (x + "");
 
             }
         }
-        seedValue = Long.parseLong(seed);
+        seedValue = Long.parseLong(seeD);
         return new Random(seedValue);
     }
 
@@ -51,7 +50,8 @@ public class Game implements Serializable {
         for (int i = 0; i < input.length(); i++) {
             char x = input.charAt(i);
             //if the seed is AWSD
-            if (x == 65 || x == 97 || x == 87 || x == 119 || x == 83 || x == 115 || x == 68 || x == 100 || x == 58 || x == 81 || x == 113) {
+            if (x == 65 || x == 97 || x == 87 || x == 119 || x == 83
+                    || x == 115 || x == 68 || x == 100 || x == 58 || x == 81 || x == 113) {
                 if ((x == 83 || x == 115) && s) {
                     s = false;
                 } else {
@@ -69,7 +69,8 @@ public class Game implements Serializable {
         for (int i = 0; i < input.length(); i++) {
             char x = input.charAt(i);
             //if the seed is AWSD
-            if (x == 65 || x == 97 || x == 87 || x == 119 || x == 83 || x == 115 || x == 68 || x == 100 || x == 58 || x == 81 || x == 113) {
+            if (x == 65 || x == 97 || x == 87 || x == 119 || x == 83 || x == 115
+                    || x == 68 || x == 100 || x == 58 || x == 81 || x == 113) {
                 if ((x == 83 || x == 115) && s) {
                     s = false;
                 } else {
@@ -98,7 +99,7 @@ public class Game implements Serializable {
         String s;
         int index = 0;
         KeyReader read = new KeyReader();
-        StdDraw.pause(100);
+//        StdDraw.pause(100);
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 //Single character string of typed input
@@ -110,16 +111,16 @@ public class Game implements Serializable {
                 if (s.equals("q") || s.equals("Q")) {
                     break;
                 }
-                ter.renderFrame(worldObj.world);
+//                ter.renderFrame(worldObj.world);
                 StdDraw.pause(100);
             }
         }
     }
-    public long seed;
-    private Random NSeedSRead() {
+    private long seed;
+    private Random nSeedRead() {
         String s;
         String seedString = "";
-        StdDraw.pause(100);
+//        StdDraw.pause(100);
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 s = Character.toString(StdDraw.nextKeyTyped());
@@ -128,17 +129,16 @@ public class Game implements Serializable {
                     //continues to loop until we hit "s"
                     seedString += s;
                     while (true) {
-                        drawFrame(seedString);
+//                        drawFrame(seedString);
                         if (StdDraw.hasNextKeyTyped()) {
                             //reads the next characters with each while loop
                             s = Character.toString(StdDraw.nextKeyTyped());
-                            //Turning next value into a string and checking if it is indeed a number and not S
                             if (s.equals("s") || s.equals("S")) {
-                                StdDraw.pause(100);
-                                gameStart();
+//                                StdDraw.pause(100);
+//                                gameStart();
                                 break;
                             }
-                            StdDraw.pause(10);
+//                            StdDraw.pause(10);
                             seedString += s;
                         }
 
@@ -150,77 +150,77 @@ public class Game implements Serializable {
         }
     }
 
-    //Creating the canvas
-    public void gameInterface() {
-        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
-        Font font = new Font("Monaco", Font.BOLD, 40);
-        StdDraw.setFont(font);
-        StdDraw.setXscale(0, WIDTH * 16);
-        StdDraw.setYscale(0, HEIGHT * 16);
-        StdDraw.clear(Color.BLACK);
-        StdDraw.enableDoubleBuffering();
-    }
-
-    //Starting menu
-    public void drawMenu() {
-        //Take the string and display it in the center of the screen
-        //If game is not over, display relevant game information at the top of the screen
-        StdDraw.clear();
-        Font font = new Font("Monaco", Font.BOLD, 40);
-        StdDraw.setFont(font);
-        StdDraw.setPenColor(StdDraw.MAGENTA);
-        StdDraw.text(25 * 16, 40 * 16, "CS61B: THE GAME");
-        Font smallfont = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(smallfont);
-        StdDraw.text(25 * 16, 28 * 16, "New Game (N)");
-        StdDraw.text(25 * 16, 26 * 16, "Load Game (L)");
-        StdDraw.text(25 * 16, 24 * 16, "Quit (Q)");
-        StdDraw.show();
-    }
-
-    //TYPE IN YOUR SEED Screen to pop up after clicking the starting 'n'
-    private void afterNmenu() {
-        StdDraw.clear();
-        Font font = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(font);
-        StdDraw.setPenColor(StdDraw.MAGENTA);
-        StdDraw.text(25 * 16, 40 * 16, "TYPE IN YOUR SEED");
-        StdDraw.show();
-    }
-
-    //GAME LOADING Screen to pop up after clicking the starting 's'
-    private void gameStart() {
-        StdDraw.clear();
-        Font font = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(font);
-        StdDraw.setPenColor(StdDraw.MAGENTA);
-        StdDraw.text(25 * 16, 40 * 16, "GAME LOADING...");
-        StdDraw.show();
-    }
-
-    //Drawing method, used to display seed input
-    public void drawFrame(String s) {
-        StdDraw.clear();
-        Font font = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(font);
-        StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.text(25 * 16, 40 * 16, s);
-        StdDraw.text(25 * 16, 35 * 16, "Type in S after you are done typing the seed.");
-        StdDraw.show();
-    }
-
-    //indicate that the game has been saved
-    public void gameSaved() {
-        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
-        StdDraw.setXscale(0, WIDTH * 16);
-        StdDraw.setYscale(0, HEIGHT * 16);
-        StdDraw.clear();
-        Font font = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(font);
-        StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.text(25 * 16, 35 * 16, "Congrats! Your game is saved.");
-        StdDraw.show();
-    }
+//    //Creating the canvas
+//    public void gameInterface() {
+//        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
+//        Font font = new Font("Monaco", Font.BOLD, 40);
+//        StdDraw.setFont(font);
+//        StdDraw.setXscale(0, WIDTH * 16);
+//        StdDraw.setYscale(0, HEIGHT * 16);
+//        StdDraw.clear(Color.BLACK);
+//        StdDraw.enableDoubleBuffering();
+//    }
+//
+//    //Starting menu
+//    public void drawMenu() {
+//        //Take the string and display it in the center of the screen
+//        //If game is not over, display relevant game information at the top of the screen
+//        StdDraw.clear();
+//        Font font = new Font("Monaco", Font.BOLD, 40);
+//        StdDraw.setFont(font);
+//        StdDraw.setPenColor(StdDraw.MAGENTA);
+//        StdDraw.text(25 * 16, 40 * 16, "CS61B: THE GAME");
+//        Font smallfont = new Font("Monaco", Font.BOLD, 30);
+//        StdDraw.setFont(smallfont);
+//        StdDraw.text(25 * 16, 28 * 16, "New Game (N)");
+//        StdDraw.text(25 * 16, 26 * 16, "Load Game (L)");
+//        StdDraw.text(25 * 16, 24 * 16, "Quit (Q)");
+//        StdDraw.show();
+//    }
+//
+//    //TYPE IN YOUR SEED Screen to pop up after clicking the starting 'n'
+//    private void afterNmenu() {
+//        StdDraw.clear();
+//        Font font = new Font("Monaco", Font.BOLD, 30);
+//        StdDraw.setFont(font);
+//        StdDraw.setPenColor(StdDraw.MAGENTA);
+//        StdDraw.text(25 * 16, 40 * 16, "TYPE IN YOUR SEED");
+//        StdDraw.show();
+//    }
+//
+//    //GAME LOADING Screen to pop up after clicking the starting 's'
+//    private void gameStart() {
+//        StdDraw.clear();
+//        Font font = new Font("Monaco", Font.BOLD, 30);
+//        StdDraw.setFont(font);
+//        StdDraw.setPenColor(StdDraw.MAGENTA);
+//        StdDraw.text(25 * 16, 40 * 16, "GAME LOADING...");
+//        StdDraw.show();
+//    }
+//
+//    //Drawing method, used to display seed input
+//    public void drawFrame(String s) {
+//        StdDraw.clear();
+//        Font font = new Font("Monaco", Font.BOLD, 30);
+//        StdDraw.setFont(font);
+//        StdDraw.setPenColor(StdDraw.RED);
+//        StdDraw.text(25 * 16, 40 * 16, s);
+//        StdDraw.text(25 * 16, 35 * 16, "Type in S after you are done typing the seed.");
+//        StdDraw.show();
+//    }
+//
+//    //indicate that the game has been saved
+//    public void gameSaved() {
+//        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
+//        StdDraw.setXscale(0, WIDTH * 16);
+//        StdDraw.setYscale(0, HEIGHT * 16);
+//        StdDraw.clear();
+//        Font font = new Font("Monaco", Font.BOLD, 30);
+//        StdDraw.setFont(font);
+//        StdDraw.setPenColor(StdDraw.RED);
+//        StdDraw.text(25 * 16, 35 * 16, "Congrats! Your game is saved.");
+//        StdDraw.show();
+//    }
 
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
@@ -228,26 +228,26 @@ public class Game implements Serializable {
 
 
     public void playWithKeyboard() {
-        gameInterface();
-        drawMenu();
+//        gameInterface();
+//        drawMenu();
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 String potentialNorL = Character.toString(StdDraw.nextKeyTyped());
                 if (potentialNorL.equals("n") || potentialNorL.equals("N")) {
-                    afterNmenu();
-                    StdDraw.pause(100);
-                    Random seedRandomizer = NSeedSRead();
-                    StdDraw.pause(100);
+//                    afterNmenu();
+//                    StdDraw.pause(100);
+                    Random seedRandom = nSeedRead();
+//                    StdDraw.pause(100);
                     //Empty world
                     World worldObj = new World();
                     //Saving seed from our static seed
                     worldObj.seed = seed;
                     //fatWASDstring
                     //Creates TETile[][] with the given randomizer
-                    worldObj.world = worldObj.finalWorldgenerator(seedRandomizer);
-                    ter.renderFrame(worldObj.world);
+                    worldObj.world = worldObj.finalWorldgenerator(seedRandom);
+//                    ter.renderFrame(worldObj.world);
                     //Pause and then wait for WASD inputs
-                    StdDraw.pause(100);
+//                    StdDraw.pause(100);
                     liveKeyReader(worldObj);
                     worldObj.fatWASDstring = this.fatWASDstring;
                 }
@@ -262,8 +262,8 @@ public class Game implements Serializable {
     public void playWithKeyboardAfterLoad(World worldObj) {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
-                    liveKeyReader(worldObj);
-                    worldObj.fatWASDstring = this.fatWASDstring;
+                liveKeyReader(worldObj);
+                worldObj.fatWASDstring = this.fatWASDstring;
             }
         }
     }
@@ -283,7 +283,7 @@ public class Game implements Serializable {
      */
 
     public TETile[][] playWithInputString(String input) {
-        ter.initialize(50, 50);
+//        ter.initialize(50, 50);
         seedRandomizer = this.seedMaker(input);
         String[] stringKeys = stringReader(input);
         World worldObj = new World();
@@ -291,23 +291,20 @@ public class Game implements Serializable {
         worldObj.seed = seedKeeper(input);
         KeyReader kr = new KeyReader();
         kr.reader(stringKeys, worldObj);
-        ter.renderFrame(worldObj.world);
+//        ter.renderFrame(worldObj.world);
         return worldObj.world;
     }
     public World playWithInputStringAfterLoad(String input) {
-        ter.initialize(50, 50);
+//        ter.initialize(50, 50);
         seedRandomizer = this.seedMaker(input);
         String[] stringKeys = stringReaderAfterL(input);
-        for (int i = 0; i < stringKeys.length; i++) {
-            System.out.println(stringKeys[i]);
-        }
         World worldObj = new World();
         worldObj.world = worldObj.finalWorldgenerator(seedRandomizer);
         worldObj.seed = seedKeeper(input);
         KeyReader kr = new KeyReader();
         kr.reader(stringKeys, worldObj);
-        System.out.println(worldObj.playerX + "&" + worldObj.playerY);
-        ter.renderFrame(worldObj.world);
+//        System.out.println(worldObj.playerX + "&" + worldObj.playerY);
+//        ter.renderFrame(worldObj.world);
         return worldObj;
     }
 }

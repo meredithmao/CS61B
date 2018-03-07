@@ -1,10 +1,8 @@
 package byog.Core;
 
-import edu.princeton.cs.introcs.StdDraw;
+//import edu.princeton.cs.introcs.StdDraw;
 
-import java.io.Serializable;
-
-public class KeyReader extends World implements Serializable {
+public class KeyReader extends World {
 
     //reading the keys for AWSD
     public void reader(String[] stringKeys, World worldObj) {
@@ -34,9 +32,9 @@ public class KeyReader extends World implements Serializable {
                 if (input.equals("q") || (input.equals("Q"))) {
                     CurrentGame gameSaved = new CurrentGame(worldObj);
                     gameSaved.savingGame();
-                    StdDraw.clear();
-                    gameSaved();
-                    StdDraw.show();
+//                    StdDraw.clear();
+//                    gameSaved();
+//                    StdDraw.show();
                     break;
                 }
             }

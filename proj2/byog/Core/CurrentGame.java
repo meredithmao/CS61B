@@ -1,16 +1,13 @@
 package byog.Core;
-import byog.TileEngine.TERenderer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Random;
 
-public class CurrentGame extends KeyReader{
+public class CurrentGame extends KeyReader {
     String file = "saved_seed.txt";
-    private static TERenderer ter = new TERenderer();
 
     //empty constructor
     CurrentGame() {
@@ -44,7 +41,6 @@ public class CurrentGame extends KeyReader{
         try {
             byte[] bytes = Files.readAllBytes(Paths.get(file));
             String stringInput = new String(bytes, StandardCharsets.UTF_8);
-            //the world class that contains this world before you set it to this.world has the proper player coords but it is not transferred
             World worldObj = playWithInputStringAfterLoad(stringInput);
             System.out.println(worldObj.playerX + "&" + worldObj.playerY);
             playWithKeyboardAfterLoad(worldObj);

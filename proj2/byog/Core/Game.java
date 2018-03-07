@@ -5,6 +5,10 @@ import byog.TileEngine.TETile;
 import edu.princeton.cs.introcs.StdDraw;
 
 //import java.awt.*;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class Game {
@@ -264,6 +268,19 @@ public class Game {
      */
 
     public TETile[][] playWithInputString(String input) {
+        if (input.charAt(0) == 'l') {
+            byte[] bytes = new byte[0];
+            try {
+                bytes = Files.readAllBytes(Paths.get("saved_seed.txt"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            long oldSeedLong = seedKeeper(new String(bytes, StandardCharsets.UTF_8));
+            String[] oldSeedArray = stringReader(new String(bytes, StandardCharsets.UTF_8));
+            String oldSeed = oldSeedLong + String.join("", oldSeedArray);
+            input = oldSeed + input.substring(1, input.length());
+        }
+
         return internalPlayWithInputString(input).world;
     }
 

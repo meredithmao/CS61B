@@ -17,7 +17,7 @@ public class Percolation {
         this.gridOpen = new boolean[N][N];
         this.N = N;
         for (int i = 0; i < N; i++) {
-            for (int j = 0; i < N; j++) {
+            for (int j = 0; j < N; j++) {
                 this.gridOpen[i][j] = false;
             }
         }
@@ -82,7 +82,7 @@ public class Percolation {
         if (row < 0 || row > N - 1 || col < 0 || col > N - 1) {
             throw new IndexOutOfBoundsException();
         }
-        return row * N + col;
+        return (row * N) + col;
     }
 
     public int numberOfOpenSites() {

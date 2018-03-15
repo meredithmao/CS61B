@@ -93,4 +93,8 @@ public class Percolation {
         return c.connected(N * N, N * N + 1);
     }
 
+    public static void main(String[] args) {
+
+    }
+
 }

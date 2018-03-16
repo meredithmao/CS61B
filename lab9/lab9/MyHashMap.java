@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -16,13 +17,29 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     private ArrayMap<K, V>[] buckets;
     private int size;
+    private Set<K> keySet;
+    private int capacity;
+    private double loadFactor;
 
     private int loadFactor() {
         return size / buckets.length;
     }
 
     public MyHashMap() {
+        this.size = 0;
+        this.capacity = DEFAULT_SIZE;
+        this.loadFactor = MAX_LF;
         buckets = new ArrayMap[DEFAULT_SIZE];
+        this.keySet = new HashSet<K>();
+        this.clear();
+    }
+
+    public MyHashMap(int initialSize, double loadFactor) {
+        this.size = 0;
+        this.capacity = initialSize;
+        this.loadFactor = loadFactor;
+        buckets = new ArrayMap[DEFAULT_SIZE];
+        this.keySet = new HashSet<K>();
         this.clear();
     }
 
@@ -53,19 +70,49 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+//        int hashIndex = this.hashCode(key);
+        ArrayMap<K, V> chain = this.buckets[DEFAULT_SIZE];
+        V value = chain.get(key);
+        return value;
+
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        ArrayMap<K, V> chain = this.buckets[DEFAULT_SIZE];
+        chain.put(key, value);
+        keySet.add(key);
+        this.size +=1;
+
+        double fillFactor = (double) this.size/ DEFAULT_SIZE;
+        if (fillFactor > this.MAX_LF) {
+            this.resize();
+        }
+    }
+
+    private void resize() {
+        int resizedCapacity = DEFAULT_SIZE * 100;
+
+        MyHashMap<K, V> resizedMap = new MyHashMap<K, V>(resizedCapacity, MAX_LF);
+
+        for (K key: this) {
+            V value = this.get(key);
+            resizedMap.put(key, value);
+        }
+        this.capacity = resizedMap.capacity;
+        this.buckets = resizedMap.buckets;
+        this.loadFactor = resizedMap.loadFactor;
+
     }
 
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        return this.size;
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
@@ -73,7 +120,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        return keySet;
     }
 
     /* Removes the mapping for the specified key from this map if exists.

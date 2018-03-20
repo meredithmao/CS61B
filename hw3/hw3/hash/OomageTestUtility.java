@@ -25,8 +25,8 @@ public class OomageTestUtility {
         }
 
         for (int i = 0; i < M; i++) {
-            if (!(buckets[i].size() >= oomages.size() / 50)
-                    && (buckets[i].size() <= oomages.size() / 2.5)) {
+            if (!((buckets[i].size() >= oomages.size() / 50)
+                    && (buckets[i].size() <= oomages.size() / 2.5))) {
                 return false;
             }
         }

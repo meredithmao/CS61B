@@ -15,7 +15,7 @@ public class OomageTestUtility {
          */
         ArrayList<Oomage>[] buckets = new ArrayList[M];
 
-        for (int i = 0; i < M ; i++) {
+        for (int i = 0; i < M; i++) {
             buckets[i] = new ArrayList<Oomage>();
         }
 
@@ -24,11 +24,12 @@ public class OomageTestUtility {
             buckets[bucketNum].add(s);
         }
 
-        for (int i = 0 ; i < M; i++) {
-            if ((buckets[i].size() >= oomages.size() / 50) && (buckets[i].size() <= oomages.size() / 2.5)) {
-                return true;
+        for (int i = 0; i < M; i++) {
+            if (!(buckets[i].size() >= oomages.size() / 50)
+                    && (buckets[i].size() <= oomages.size() / 2.5)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }

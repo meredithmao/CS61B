@@ -20,9 +20,10 @@ public class Solver {
         while (!searchNodes.min().currentState.isGoal()) {
             nodeToDelete = searchNodes.delMin();
             for (WorldState neighbor : nodeToDelete.getCurrentState().neighbors()) {
-                if(nodeToDelete.getPreviousNode() == null ||
-                        !(nodeToDelete.getPreviousNode().getCurrentState().equals(neighbor))) {
-                    searchNodes.insert(new SearchNode(neighbor, nodeToDelete.getMovesMade() + 1, nodeToDelete));
+                if (nodeToDelete.getPreviousNode() == null
+                        || !(nodeToDelete.getPreviousNode().getCurrentState().equals(neighbor))) {
+                    searchNodes.insert(new SearchNode(neighbor,
+                            nodeToDelete.getMovesMade() + 1, nodeToDelete));
                 }
             }
         }
@@ -30,7 +31,7 @@ public class Solver {
         nodeToDelete = searchNodes.delMin();
         this.solution.add(nodeToDelete.getCurrentState());
         while ((nodeToDelete = nodeToDelete.getPreviousNode()) != null) {
-            this.solution.add(0, nodeToDelete.getCurrentState()) ;
+            this.solution.add(0, nodeToDelete.getCurrentState());
         }
     }
 
@@ -61,7 +62,7 @@ public class Solver {
         private int priorityValue;
 
         //constructor for SearchNode Object
-        public SearchNode(WorldState initial, int numberOfMoves, SearchNode prevNode) {
+        SearchNode(WorldState initial, int numberOfMoves, SearchNode prevNode) {
             this.currentState = initial;
             this.movesMade = numberOfMoves;
             this.previousNode = prevNode;
@@ -86,11 +87,11 @@ public class Solver {
         }
     }
 
-    private class priorityNode implements Comparator<SearchNode> {
+    private class PriorityNode implements Comparator<SearchNode> {
         public int compare(SearchNode node1, SearchNode node2) {
             int difference = node1.getPriorityValue() - node2.getPriorityValue();
             return Integer.compare(difference, 0);
         }
     }
-    private final Comparator<SearchNode> priority = new priorityNode();
+    private final Comparator<SearchNode> priority = new PriorityNode();
 }

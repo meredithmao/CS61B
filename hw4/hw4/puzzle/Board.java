@@ -79,7 +79,6 @@ public class Board implements WorldState {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 int currentNumber = this.board[i][j];
-
                 if (currentNumber == 0) {
                     continue;
                 } else {
@@ -105,6 +104,9 @@ public class Board implements WorldState {
         }
         Board object = (Board) y;
 
+        if (object.size() != this.size()) {
+            return false;
+        }
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
                 if (this.board[i][j] != object.board[i][j]) {

@@ -1,19 +1,16 @@
 package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class Solver {
-    private final WorldState initialWorld;
-    private MinPQ<SearchNode> searchNodes;
+    private final MinPQ<SearchNode> searchNodes;
     private List<WorldState> solution = new ArrayList<>();
 
     public Solver(WorldState initial) {
-        this.initialWorld = initial;
-        this.searchNodes = new MinPQ<>(new priorityNode());
+        this.searchNodes = new MinPQ<>(priority);
 
         SearchNode rootNode = new SearchNode(initial, 0, null);
         searchNodes.insert(rootNode);
@@ -22,8 +19,9 @@ public class Solver {
 
         while (!searchNodes.min().currentState.isGoal()) {
             nodeToDelete = searchNodes.delMin();
-            for (WorldState neighbor : initial.neighbors()) {
-                if(!sameState(nodeToDelete, neighbor)) {
+            for (WorldState neighbor : nodeToDelete.getCurrentState().neighbors()) {
+                if(nodeToDelete.getPreviousNode() == null ||
+                        !(nodeToDelete.getPreviousNode().getCurrentState().equals(neighbor))) {
                     searchNodes.insert(new SearchNode(neighbor, nodeToDelete.getMovesMade() + 1, nodeToDelete));
                 }
             }
@@ -36,15 +34,15 @@ public class Solver {
         }
     }
 
-    private boolean sameState(SearchNode prevNode, WorldState state) {
-        SearchNode parentNode = prevNode;
-        while((parentNode = parentNode.getPreviousNode()) != null) {
-            if(parentNode.getCurrentState() == state) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean sameState(SearchNode prevNode, WorldState state) {
+//        SearchNode parentNode = prevNode;
+//        while((parentNode = parentNode.getPreviousNode()) != null) {
+//            if(parentNode.getCurrentState().equals(state)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public int moves() {
         return this.solution.size() - 1;
@@ -59,12 +57,16 @@ public class Solver {
         private WorldState currentState;
         private int movesMade;
         private SearchNode previousNode;
+        private int distance;
+        private int priorityValue;
 
         //constructor for SearchNode Object
         public SearchNode(WorldState initial, int numberOfMoves, SearchNode prevNode) {
             this.currentState = initial;
             this.movesMade = numberOfMoves;
             this.previousNode = prevNode;
+            this.distance = initial.estimatedDistanceToGoal();
+            this.priorityValue = this.movesMade + this.distance;
         }
 
         public WorldState getCurrentState() {
@@ -78,21 +80,17 @@ public class Solver {
         public SearchNode getPreviousNode() {
             return previousNode;
         }
+
+        public int getPriorityValue() {
+            return priorityValue;
+        }
     }
 
     private class priorityNode implements Comparator<SearchNode> {
         public int compare(SearchNode node1, SearchNode node2) {
-            int priority1 = node1.getMovesMade() + node1.currentState.estimatedDistanceToGoal();
-            int priority2 = node2.getMovesMade() + node2.currentState.estimatedDistanceToGoal();
-
-            int difference = priority1 - priority2;
-            if (difference > 0) {
-                return 1;
-            } else if (difference < 0) {
-                return -1;
-            } else {
-                return 0;
-            }
+            int difference = node1.getPriorityValue() - node2.getPriorityValue();
+            return Integer.compare(difference, 0);
         }
     }
+    private final Comparator<SearchNode> priority = new priorityNode();
 }

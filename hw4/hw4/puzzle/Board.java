@@ -3,8 +3,8 @@ import edu.princeton.cs.algs4.Queue;
 
 public class Board implements WorldState {
 
-    private int[][] board;
     private int N;
+    private int[][] board;
 
     public Board(int[][] tiles) {
         this.N = tiles.length;
@@ -27,7 +27,7 @@ public class Board implements WorldState {
         return this.N;
     }
 
-    // Source: Josh Hug
+    // @Source Josh Hug
     public Iterable<WorldState> neighbors() {
         Queue<WorldState> neighbors = new Queue<>();
         int hug = size();
@@ -61,10 +61,11 @@ public class Board implements WorldState {
         }
         return neighbors;
     }
+
     public int hamming() {
         int hamValue = 0;
         for (int i = 0; i < N; i++) {
-            for (int j = 0; i < N; j++) {
+            for (int j = 0; j < N; j++) {
                 if (this.board[i][j] != (N * i + j + 1) && this.board[i][j] != 0) {
                     hamValue++;
                 }
@@ -72,6 +73,7 @@ public class Board implements WorldState {
         }
         return hamValue;
     }
+
     public int manhattan() {
         int manValue = 0;
         for (int i = 0; i < N; i++) {
@@ -97,7 +99,6 @@ public class Board implements WorldState {
         if (y.getClass() != this.getClass()) {
             return false;
         }
-
         Board object = (Board) y;
 
         for(int i = 0; i < this.N; i++) {

@@ -101,18 +101,16 @@ public class Rasterer {
         int xValues = endingX - startingX;
         //determines total number of y values
         int yValues = endingY - startingY;
-
+        int saveX = startingX;
         String[][] rGrid = new String[yValues][xValues];
-        int startY = 0;
-        for (int y = startingY; y < endingY; y++) {
-            int startX = 0;
-            for (int x = startingX; x < endingX; x++) {
-                String file = "d" + rdepthNumber + "_x" + (x) + "_y" + (y) + ".png";
-                rGrid[startY][startX] = file;
-                startX += 1;
+        for (int y = 0; y < yValues; y++) {
+            startingX = saveX;
+            for (int x = 0; x < xValues; x++) {
+                String file = "d" + rdepthNumber + "_x" + (startingX) + "_y" + (startingY) + ".png";
+                rGrid[y][x] = file;
+                startingX += 1;
             }
-            startY += 1;
-
+            startingY += 1;
         }
         results.put("render_grid", rGrid);
 

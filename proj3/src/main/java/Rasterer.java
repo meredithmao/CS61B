@@ -11,6 +11,7 @@ public class Rasterer {
 
     public Rasterer() {
         // YOUR CODE HERE
+
     }
 
     /**
@@ -32,20 +33,89 @@ public class Rasterer {
      *               the user viewport width and height.
      *
      * @return A map of results for the front end as specified: <br>
-     * "render_grid"   : String[][], the files to display. <br>
-     * "raster_ul_lon" : Number, the bounding upper left longitude of the rastered image. <br>
-     * "raster_ul_lat" : Number, the bounding upper left latitude of the rastered image. <br>
-     * "raster_lr_lon" : Number, the bounding lower right longitude of the rastered image. <br>
-     * "raster_lr_lat" : Number, the bounding lower right latitude of the rastered image. <br>
+     * "rGrid"   : String[][], the files to display. <br>
+     * "rul_lon" : Number, the bounding upper left longitude of the rastered image. <br>
+     * "rul_lat" : Number, the bounding upper left latitude of the rastered image. <br>
+     * "rlr_lon" : Number, the bounding lower right longitude of the rastered image. <br>
+     * "rlr_lat" : Number, the bounding lower right latitude of the rastered image. <br>
      * "depth"         : Number, the depth of the nodes of the rastered image <br>
      * "query_success" : Boolean, whether the query was able to successfully complete; don't
      *                    forget to set this to true on success! <br>
      */
     public Map<String, Object> getMapRaster(Map<String, Double> params) {
-        // System.out.println(params);
         Map<String, Object> results = new HashMap<>();
-        System.out.println("Since you haven't implemented getMapRaster, nothing is displayed in "
-                           + "your browser.");
+        double qUllon = params.get("ullon");
+        double qUllat = params.get("ullat");
+        double qLrLon = params.get("lrlon");
+        double qLrlat = params.get("lrlat");
+        double qWidth = params.get("w");
+        double rullon = MapServer.ROOT_ULLON;
+        double rullat = MapServer.ROOT_ULLAT;
+        double rlrlon = MapServer.ROOT_LRLON;
+        double rlrlat = MapServer.ROOT_LRLAT;
+        double rdepth = 0; //initialized with random number
+        int rdepthNumber = 0;
+        if (qUllon < rullon || qUllat > rullat) {
+            results.put("query_success", false);
+        } else if (qLrLon > rlrlon || qLrlat < rlrlat) {
+            results.put("query_success", false);
+        } else if (qLrLon < qUllon || qLrlat > qUllat) {
+            results.put("query_success", false);
+        } else {
+            results.put("query_success", true);
+        }
+
+        double qLonDPP = (qLrLon - qUllon) / qWidth;
+        double rLonDPP = (rlrlon - rullon) / MapServer.TILE_SIZE;
+
+        for (double i = 0; i < 8; i++) {
+            if (rLonDPP <= qLonDPP || i == 7) {
+                rdepth = (Math.sqrt(Math.pow(4, i))); //128
+                break;
+            }
+            rLonDPP = rLonDPP / 2;
+        }
+        //#1-8 for depth number
+        rdepthNumber = (int) ((Math.log(rdepth)) / Math.log(2)); //7
+        results.put("depth", rdepthNumber);
+        double tileWidth = (rlrlon - rullon) / rdepth;
+        double tileHeight = (rullat - rlrlat) / rdepth;
+        //upper longitude starting distance
+        int startingX = (int) ((qUllon - rullon) / tileWidth);
+        double imageullon = rullon + (startingX * tileWidth);
+        results.put("raster_ul_lon", imageullon);
+        //upper latitude starting distance
+        int startingY = (int) ((rullat - qUllat) / tileHeight);
+        double imageullat = rullat - (startingY * tileHeight);
+        results.put("raster_ul_lat", imageullat);
+        //lower longitude ending distance
+        //int endingX = (int) ((rlrlon - qLrLon) / tileWidth);
+        int endingX = (int) ((qLrLon - imageullon) / tileWidth) + startingX + 1;
+        double imagelrlon = rullon + (endingX * tileWidth);
+        results.put("raster_lr_lon", imagelrlon);
+        //lower latitude ending distance
+        int endingY = (int) ((imageullat - qLrlat) / tileHeight) + startingY + 1;
+        double imagelrrat = rullat - (endingY * tileHeight);
+        results.put("raster_lr_lat", imagelrrat);
+        //determines total number of x values
+        int xValues = endingX - startingX;
+        //determines total number of y values
+        int yValues = endingY - startingY;
+
+        String[][] rGrid = new String[yValues][xValues];
+        int startY = 0;
+        for (int y = startingY; y < endingY; y++) {
+            int startX = 0;
+            for (int x = startingX; x < endingX; x++) {
+                String file = "d" + rdepthNumber + "_x" + (x) + "_y" + (y) + ".png";
+                rGrid[startY][startX] = file;
+                startX += 1;
+            }
+            startY += 1;
+
+        }
+        results.put("render_grid", rGrid);
+
         return results;
     }
 

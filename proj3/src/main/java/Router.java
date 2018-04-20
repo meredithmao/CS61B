@@ -1,4 +1,5 @@
 
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,49 +32,95 @@ public class Router {
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        try {
-            GraphDB.Node nodeStart = g.nodeMap.get(g.closest(stlon, stlat));
-            GraphDB.Node nodeFinal = g.nodeMap.get(g.closest(destlon, destlat));
-            Map<Long, Double> disTo = new HashMap<>();
-            Map<Long, Long> parent = new HashMap<>();
-            Comparator c = (o1, o2) -> {
-                double check = (disTo.get(o1) - disTo.get(o2));
-                return (int) (check * 23847850);
-            };
-            PriorityQueue<Long> priorityQueue = new PriorityQueue<>(c);
-            //added all id's to my priority Queue
-            for (long id : g.nodeMap.keySet()) {
-                disTo.put(id, Double.POSITIVE_INFINITY);
-                priorityQueue.add(id);
+//        try {
+//            GraphDB.Node nodeStart = g.nodeMap.get(g.closest(stlon, stlat));
+//            GraphDB.Node nodeFinal = g.nodeMap.get(g.closest(destlon, destlat));
+//            Map<Long, Double> disTo = new HashMap<>();
+//            Map<Long, Long> parent = new HashMap<>();
+//            Comparator c = (o1, o2) -> {
+//                double check = (disTo.get(o1) - disTo.get(o2));
+//                return (int) (check * 23847850);
+//            };
+//            PriorityQueue<Long> priorityQueue = new PriorityQueue<>(c);
+//            //added all id's to my priority Queue
+//            for (long id : g.nodeMap.keySet()) {
+//                disTo.put(id, Double.POSITIVE_INFINITY);
+//                priorityQueue.add(id);
+//            }
+//            disTo.put(nodeStart.id, 0.0);
+//            priorityQueue.remove(nodeStart.id);
+//            priorityQueue.add(nodeStart.id);
+//            while (!priorityQueue.isEmpty()) {
+//                long v = priorityQueue.poll();
+//                for (long w : g.nodeMap.get(v).adjacentNodes) {
+//                    //distance from where you're at to the parent
+//                    double distance = g.distance(v, w) + disTo.get(v);
+//                    if (distance < disTo.get(w)) {
+//                        disTo.put(w, distance);
+//                        priorityQueue.remove(w);
+//                        priorityQueue.add(w);
+//                        parent.put(w, v);
+//                    }
+//                    //key: the node value: the parent
+//                }
+//            }
+//            LinkedList<Long> finalList = new LinkedList<>();
+//            long currentParent = nodeFinal.id;
+//            while (currentParent != nodeStart.id) {
+//                finalList.addFirst(currentParent);
+//                currentParent = parent.get(currentParent);
+//            }
+//            finalList.addFirst(nodeStart.id);
+//            return finalList;
+//        } catch (NullPointerException E) {
+//            return new LinkedList<>();
+//        }
+        Map<Long, Double> bestKnownDistance = new HashMap<>();
+        Map<Long, Long> parent = new HashMap<>();
+        Map<Long, Double> hScore = new HashMap<>();
+
+        GraphDB.Node nodeStart = g.nodeMap.get(g.closest(stlon, stlat));
+        GraphDB.Node nodeFinal = g.nodeMap.get(g.closest(destlon, destlat));
+
+        Comparator<Long> check = Comparator.comparingDouble(hScore::get);
+
+        PriorityQueue<Long> fringe = new PriorityQueue<>(check);
+        fringe.add(nodeStart.id);
+        bestKnownDistance.put(nodeStart.id, 0.0);
+        hScore.put(nodeStart.id, g.distance(nodeStart.id, nodeFinal.id));
+
+        while (!fringe.isEmpty()) {
+            Long v = fringe.poll();
+            if (v == null) {
+                break;
             }
-            disTo.put(nodeStart.id, 0.0);
-            priorityQueue.remove(nodeStart.id);
-            priorityQueue.add(nodeStart.id);
-            while (!priorityQueue.isEmpty()) {
-                long v = priorityQueue.poll();
-                for (long w : g.nodeMap.get(v).adjacentNodes) {
-                    //distance from where you're at to the parent
-                    double distance = g.distance(v, w) + disTo.get(v);
-                    if (distance < disTo.get(w)) {
-                        disTo.put(w, distance);
-                        priorityQueue.remove(w);
-                        priorityQueue.add(w);
+            if (v == nodeFinal.id) {
+                break;
+            } else {
+                for (Long w : g.nodeMap.get(v).adjacentNodes) {
+                    double current = bestKnownDistance.getOrDefault(w, Double.MAX_VALUE);
+                    double possible = bestKnownDistance.get(v) + g.distance(v, w);
+                    if (possible < current) {
+                        fringe.remove(w);
+                        double hDistance = g.distance(w, nodeFinal.id);
+                        bestKnownDistance.put(w, possible);
+                        hScore.put(w, bestKnownDistance.get(w) + hDistance);
+                        fringe.add(w);
+                        //key is the child and value is the parent
                         parent.put(w, v);
                     }
-                    //key: the node value: the parent
                 }
             }
-            LinkedList<Long> finalList = new LinkedList<>();
-            long currentParent = nodeFinal.id;
-            while (currentParent != nodeStart.id) {
-                finalList.addFirst(currentParent);
-                currentParent = parent.get(currentParent);
-            }
-            finalList.addFirst(nodeStart.id);
-            return finalList;
-        } catch (NullPointerException E) {
-            return new LinkedList<>();
         }
+        LinkedList<Long> finalList = new LinkedList<>();
+        long currentParent = nodeFinal.id;
+        while (currentParent != nodeStart.id) {
+            finalList.addFirst(currentParent);
+            currentParent = parent.get(currentParent);
+        }
+        finalList.addFirst(nodeStart.id);
+        return finalList;
+
     }
     /**
      * Create the list of directions corresponding to a route on the graph.

@@ -7,8 +7,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
+/**th
  * Graph for storing all of the intersection (vertex) and road (edge) information.
  * Uses your GraphBuildingHandler to convert the XML files into a graph. Your
  * code must include the vertices, adjacent, distance, closest, lat, and lon
@@ -21,11 +24,39 @@ public class GraphDB {
     /** Your instance variables for storing the graph. You should consider
      * creating helper classes, e.g. Node, Edge, etc. */
 
+    Map<Long, Node> nodeMap = new HashMap<>();
     /**
      * Example constructor shows how to create and start an XML parser.
      * You do not need to modify this constructor, but you're welcome to do so.
      * @param dbPath Path to the XML file to be parsed.
      */
+
+    public class Node {
+        long id;
+        String name;
+        double lon;
+        double lat;
+        List<Long> adjacentNodes;
+
+        public Node(long id, double lat, double lon) {
+            this.id = id;
+            this.lat = lat;
+            this.lon = lon;
+            this.adjacentNodes = new ArrayList<>();
+        }
+        public void connectNodes(long identity) {
+            adjacentNodes.add(identity);
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public void addNode(long id, double lat, double lon) {
+        Node n = new Node(id, lat, lon);
+        nodeMap.put(n.id, n);
+    }
+
     public GraphDB(String dbPath) {
         try {
             File inputFile = new File(dbPath);
@@ -57,7 +88,16 @@ public class GraphDB {
      *  we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
-        // TODO: Your code here.
+        List<Node> nodesToRemove = new ArrayList<>();
+        for (Node v : nodeMap.values()) {
+            if (v.adjacentNodes.isEmpty()) {
+                nodesToRemove.add(v);
+            }
+        }
+
+        for (Node v : nodesToRemove) {
+            nodeMap.remove(v.id);
+        }
     }
 
     /**
@@ -66,7 +106,7 @@ public class GraphDB {
      */
     Iterable<Long> vertices() {
         //YOUR CODE HERE, this currently returns only an empty list.
-        return new ArrayList<Long>();
+        return nodeMap.keySet();
     }
 
     /**
@@ -75,7 +115,7 @@ public class GraphDB {
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        return null;
+        return nodeMap.get(v).adjacentNodes;
     }
 
     /**
@@ -136,7 +176,16 @@ public class GraphDB {
      * @return The id of the node in the graph closest to the target.
      */
     long closest(double lon, double lat) {
-        return 0;
+        double minDistance = Double.MAX_VALUE;
+        Node closest = null;
+        for (Node v : nodeMap.values()) {
+            double currDistance = distance(v.lon, v.lat, lon, lat);
+            if (currDistance < minDistance) {
+                minDistance = currDistance;
+                closest = v;
+            }
+        }
+        return closest.id;
     }
 
     /**
@@ -145,7 +194,7 @@ public class GraphDB {
      * @return The longitude of the vertex.
      */
     double lon(long v) {
-        return 0;
+        return nodeMap.get(v).lon;
     }
 
     /**
@@ -154,6 +203,6 @@ public class GraphDB {
      * @return The latitude of the vertex.
      */
     double lat(long v) {
-        return 0;
+        return nodeMap.get(v).lat;
     }
 }

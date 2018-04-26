@@ -118,8 +118,7 @@ public class SeamCarver {
         }
     }
     public int[] findHorizontalSeam() {
-        int[] horizontalSeam;
-        Picture transposedPicture = new Picture(picture.height(), picture.width());
+        Picture transposedPicture = new Picture(height(), width());
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 Color pixelColors = picture.get(col, row);
@@ -127,9 +126,7 @@ public class SeamCarver {
             }
         }
         SeamCarver seam = new SeamCarver(transposedPicture);
-        horizontalSeam = seam.findVerticalSeam();
-
-        return horizontalSeam;
+        return seam.findVerticalSeam();
     }
     public int[] findVerticalSeam() {
         int[] verticalSeam = new int[picture.height()];
@@ -178,38 +175,19 @@ public class SeamCarver {
             }
         }
         verticalSeam[height - 1] = lastColumn;
-        for (int row = picture.height() - 1; row > 0; row--) {
-            for (int col = 0; col < picture.width(); col++) {
-                if (M[row][col] == largerValue) {
-                    if (col == 0) {
-                        aboveRight = M[row - 1][col + 1];
-                        aboveCenter = M[row - 1][col];
-                        minEnergy = Math.min(aboveCenter, aboveRight);
-                        largerValue = Math.min(aboveCenter, aboveRight);
-                    } else if (col == width - 1) {
-                        aboveLeft = M[row - 1][col - 1];
-                        aboveCenter = M[row - 1][col];
-                        minEnergy = Math.min(aboveLeft, aboveCenter);
-                        largerValue = minEnergy;
-                    } else {
-                        aboveLeft = M[row - 1][col - 1];
-                        aboveRight = M[row - 1][col + 1];
-                        aboveCenter = M[row - 1][col];
-                        minEnergy = Math.min(aboveLeft, Math.min(aboveCenter, aboveRight));
-                        largerValue = minEnergy;
-                    }
-                    if (minEnergy == aboveLeft) {
-                        indexOfMinEnergy = col - 1;
-                    }
-                    if (minEnergy == aboveRight) {
-                        indexOfMinEnergy = col + 1;
-                    }
-                    if (minEnergy == aboveCenter) {
-                        indexOfMinEnergy = col;
+        int secondRow = height - 2;
+        for (int i = secondRow; i >= 0; i--) {
+            double save = M[i][lastColumn];
+            for (int col = 0; col < width(); col++) {
+                double check = M[i][col];
+                if (col == lastColumn - 1 || col == lastColumn + 1) {
+                    if (check < save) {
+                        save = M[i][col];
+                        lastColumn = col;
                     }
                 }
             }
-            verticalSeam[row - 1] = indexOfMinEnergy;
+            verticalSeam[i] = lastColumn;
         }
         return verticalSeam;
     }
@@ -220,3 +198,35 @@ public class SeamCarver {
         SeamRemover.removeVerticalSeam(this.picture, seam);
     }
 }
+
+//        for (int row = picture.height() - 1; row > 0; row--) {
+//            for (int col = 0; col < picture.width(); col++) {
+//                if (M[row][col] == largerValue) {
+//                    aboveCenter = M[row - 1][col];
+//                    indexOfMinEnergy = col;
+//                    if (col == 0) {
+//                        if (M[row - 1][col + 1] < aboveCenter) {
+//                            indexOfMinEnergy = col + 1;
+//                        }
+//                    } else if (col == width - 1) {
+//                        if (M[row - 1][col - 1] < aboveCenter) {
+//                            indexOfMinEnergy = col - 1;
+//                        }
+//                    } else {
+//                        if (M[row - 1][col - 1] < aboveCenter) {
+//                            indexOfMinEnergy = col - 1;
+//                            if (M[row - 1][col + 1] < M[row - 1][col - 1]) {
+//                                indexOfMinEnergy = col + 1;
+//                            }
+//                        }
+//                        if (M[row - 1][col + 1] < aboveCenter) {
+//                            indexOfMinEnergy = col + 1;
+//                            if (M[row - 1][col - 1] < M[row - 1][col + 1]) {
+//                                indexOfMinEnergy = col - 1;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            verticalSeam[row - 1] = indexOfMinEnergy;
+//        }

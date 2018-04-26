@@ -8,13 +8,13 @@ public class SeamCarver {
     private Picture picture;
     private double[][] energy;
     private double[][] M;
-    double aboveLeft = 0.0;
-    double aboveRight = 0.0;
-    double aboveCenter;
-    int indexOfMinEnergy = 0;
-    double largerValue = Double.MAX_VALUE;
-    double minEnergy;
-    int lastColumn = 0;
+    private double aboveLeft = 0.0;
+    private double aboveRight = 0.0;
+    private double aboveCenter;
+    private int indexOfMinEnergy = 0;
+    private double largerValue = Double.MAX_VALUE;
+    private double minEnergy;
+    private int lastColumn = 0;
     public SeamCarver(Picture picture) {
         this.picture = picture;
         this.width = picture.width();

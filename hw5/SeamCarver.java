@@ -59,10 +59,10 @@ public class SeamCarver {
                     topPixel = picture.get(x, y - 1);
                     bottomPixel = picture.get(x, y + 1);
                 }
-                int rY = Math.abs(bottomPixel.getRed() - topPixel.getRed());
-                int gY = Math.abs(bottomPixel.getGreen() - topPixel.getGreen());
-                int bY = Math.abs(bottomPixel.getBlue() - topPixel.getBlue());
-                double energyY = Math.pow(rY, 2) + Math.pow(gY, 2) + Math.pow(bY, 2);
+                int rY = bottomPixel.getRed() - topPixel.getRed();
+                int gY = bottomPixel.getGreen() - topPixel.getGreen();
+                int bY = bottomPixel.getBlue() - topPixel.getBlue();
+                double energyY = (rY * rY) + (gY * gY) + (bY * bY);
                 energy[y][x] = energyY;
                 return energy[y][x];
             } else if (picture.height() == 1) {
@@ -76,10 +76,10 @@ public class SeamCarver {
                     leftPixel = picture.get(x - 1, y);
                     rightPixel = picture.get(x + 1, y);
                 }
-                int rX = Math.abs(rightPixel.getRed() - leftPixel.getRed());
-                int gX = Math.abs(rightPixel.getGreen() - leftPixel.getGreen());
-                int bX = Math.abs(rightPixel.getBlue() - leftPixel.getBlue());
-                double energyX = Math.pow(rX, 2) + Math.pow(gX, 2) + Math.pow(bX, 2);
+                int rX = rightPixel.getRed() - leftPixel.getRed();
+                int gX = rightPixel.getGreen() - leftPixel.getGreen();
+                int bX = rightPixel.getBlue() - leftPixel.getBlue();
+                double energyX = (rX * rX) + (gX * gX) + (bX * bX);
                 energy[y][x] = energyX;
                 return energy[y][x];
             } else {
@@ -104,14 +104,14 @@ public class SeamCarver {
                     bottomPixel = picture.get(x, y + 1);
                 }
 
-                int rX = Math.abs(rightPixel.getRed() - leftPixel.getRed());
-                int gX = Math.abs(rightPixel.getGreen() - leftPixel.getGreen());
-                int bX = Math.abs(rightPixel.getBlue() - leftPixel.getBlue());
-                int rY = Math.abs(bottomPixel.getRed() - topPixel.getRed());
-                int gY = Math.abs(bottomPixel.getGreen() - topPixel.getGreen());
-                int bY = Math.abs(bottomPixel.getBlue() - topPixel.getBlue());
-                double energyX = Math.pow(rX, 2) + Math.pow(gX, 2) + Math.pow(bX, 2);
-                double energyY = Math.pow(rY, 2) + Math.pow(gY, 2) + Math.pow(bY, 2);
+                int rX = rightPixel.getRed() - leftPixel.getRed();
+                int gX = rightPixel.getGreen() - leftPixel.getGreen();
+                int bX = rightPixel.getBlue() - leftPixel.getBlue();
+                int rY = bottomPixel.getRed() - topPixel.getRed();
+                int gY = bottomPixel.getGreen() - topPixel.getGreen();
+                int bY = bottomPixel.getBlue() - topPixel.getBlue();
+                double energyX = (rX * rX) + (gX * gX) + (bX * bX);
+                double energyY = (rY * rY) + (gY * gY) + (bY * bY);
                 energy[y][x] = (energyX + energyY);
             }
             return energy[y][x];
@@ -200,10 +200,12 @@ public class SeamCarver {
                     }
                     if (minEnergy == aboveLeft) {
                         indexOfMinEnergy = col - 1;
-                    } else if (minEnergy == aboveCenter) {
-                        indexOfMinEnergy = col;
-                    } else if (minEnergy == aboveRight) {
+                    }
+                    if (minEnergy == aboveRight) {
                         indexOfMinEnergy = col + 1;
+                    }
+                    if (minEnergy == aboveCenter) {
+                        indexOfMinEnergy = col;
                     }
                 }
             }
@@ -212,37 +214,9 @@ public class SeamCarver {
         return verticalSeam;
     }
     public void removeHorizontalSeam(int[] seam) {
-        Picture removedSeam = new Picture(width, height - 1);
-        int value = 0;
-        int rowValue = 0;
-        for (int col = 0; col < width - 1; col++) {
-            for (int row = 0; row < height; row++) {
-                if (row == seam[value]) {
-                    continue;
-                }
-                Color pixelColors = picture.get(col, row);
-                removedSeam.set(col, rowValue, pixelColors);
-            }
-            rowValue = 0;
-            value++;
-        }
-        picture = removedSeam;
+        SeamRemover.removeHorizontalSeam(this.picture, seam);
     }
     public void removeVerticalSeam(int[] seam) {
-        Picture removedSeam = new Picture(width - 1, height);
-        int value = 0;
-        int column = 0;
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width - 1; row++) {
-                if (col == seam[value]) {
-                    continue;
-                }
-                Color pixelColors = picture.get(col, row);
-                removedSeam.set(column, row, pixelColors);
-            }
-            column = 0;
-            value++;
-        }
-        picture = removedSeam;
+        SeamRemover.removeVerticalSeam(this.picture, seam);
     }
 }

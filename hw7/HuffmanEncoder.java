@@ -24,14 +24,15 @@ public class HuffmanEncoder {
         return table;
     }
     public static void main(String[] args) {
-        char[] input = FileUtils.readFile(args[0]);
-        Map<Character, Integer> frequencyTable = buildFrequencyTable(input);
+        char[] inputSymbols = FileUtils.readFile(args[0]);
+        Map<Character, Integer> frequencyTable = buildFrequencyTable(inputSymbols);
         BinaryTrie bt = new BinaryTrie(frequencyTable);
         ObjectWriter ow = new ObjectWriter(args[0] + ".huf");
         ow.writeObject(bt);
+        ow.writeObject(inputSymbols.length);
         Map<Character, BitSequence> lookupTable = bt.buildLookupTable();
         List<BitSequence> bS = new ArrayList<>();
-        for (char c : input) {
+        for (char c : inputSymbols) {
             BitSequence bits = lookupTable.get(c);
             bS.add(bits);
         }

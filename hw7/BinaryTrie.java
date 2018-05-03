@@ -69,10 +69,10 @@ public class BinaryTrie implements Serializable {
         builtTable(table, hm, "");
         return table;
     }
-    private void builtTable (Map<Character, BitSequence> table, Node n, String s) {
+    private void builtTable(Map<Character, BitSequence> lookUptable, Node n, String s) {
         if (!n.isLeaf()) {
-            builtTable(table, n.smaller, s + "0");
-            builtTable(table, n.larger, s + "1");
+            builtTable(lookUptable, n.smaller, s + "0");
+            builtTable(lookUptable, n.larger, s + "1");
         } else {
             table.put(n.ch, new BitSequence(s));
         }

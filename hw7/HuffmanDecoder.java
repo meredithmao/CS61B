@@ -1,5 +1,5 @@
 public class HuffmanDecoder {
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         ObjectReader oR = new ObjectReader(args[0]);
         Object x = oR.readObject();
         Object y = oR.readObject();

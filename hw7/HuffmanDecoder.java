@@ -1,9 +1,12 @@
 public class HuffmanDecoder {
     public static void main(String[] args) {
         ObjectReader oR = new ObjectReader(args[0]);
-        BinaryTrie bT = (BinaryTrie) oR.readObject();
-        int numberSymbols = (Integer) oR.readObject();
-        BitSequence bits = (BitSequence) oR.readObject();
+        Object x = oR.readObject();
+        Object y = oR.readObject();
+        Object z = oR.readObject();
+        BinaryTrie bT = (BinaryTrie) x;
+        int numberSymbols = (Integer) y;
+        BitSequence bits = (BitSequence) z;
         char[] original = new char[numberSymbols];
         for (int i = 0; i < numberSymbols; i++) {
             Match m = bT.longestPrefixMatch(bits);
